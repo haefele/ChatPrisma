@@ -1,4 +1,4 @@
-namespace ChatPrisma.Configuration;
+namespace ChatPrisma.Services.ChatBot;
 
 public class OpenAIConfig
 {

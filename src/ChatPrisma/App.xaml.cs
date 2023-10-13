@@ -1,16 +1,21 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
-using ChatPrisma.Configuration;
+using ChatPrisma.Host;
+using ChatPrisma.HostedServices;
 using ChatPrisma.Services;
 using ChatPrisma.Services.ChatBot;
+using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.KeyboardHooks;
 using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.TextWriter;
+using ChatPrisma.Services.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Hosting;
+using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
 namespace ChatPrisma;
@@ -18,8 +23,6 @@ namespace ChatPrisma;
 public partial class App
 {
     private IHost? _host;
-    public IHost Host => this._host ?? throw new PrismaException();
-    public IServiceProvider Services => this.Host.Services;
 
     public new static App Current => (App)System.Windows.Application.Current;
 
@@ -30,8 +33,8 @@ public partial class App
             this._host = this.CreateHostBuilder(e.Args).Build();
             await this._host.StartAsync();
 
-            var logger = this.Services.GetRequiredService<ILogger<App>>();
-            var environment = this.Services.GetRequiredService<IHostEnvironment>();
+            var logger = this._host.Services.GetRequiredService<ILogger<App>>();
+            var environment = this._host.Services.GetRequiredService<IHostEnvironment>();
             
             logger.LogInformation("Application started! Environment: {Environment}", environment.EnvironmentName);
         }
@@ -59,32 +62,32 @@ public partial class App
     }
     
     private IHostBuilder CreateHostBuilder(string[] args) => Microsoft.Extensions.Hosting.Host
-        .CreateDefaultBuilder()
-        .ConfigureHostConfiguration(c =>
-        {
-            c.SetBasePath(System.IO.Path.GetDirectoryName(AppContext.BaseDirectory) ?? throw new PrismaException());
-        })
-        .ConfigureAppConfiguration(c =>
-        {
-            c.SetBasePath(System.IO.Path.GetDirectoryName(AppContext.BaseDirectory) ?? throw new PrismaException());
-        })
+        .CreateDefaultBuilder(args)
         .ConfigureServices((context, services) =>
         {
+            // Host
+            services.AddSingleton<Application>(this);
+            services.AddSingleton<IHostLifetime, TrayIconLifetime>();
+            
             // Config
-            services.Configure<ConsoleLifetimeOptions>(o => o.SuppressStatusMessages = true);
+            services.Configure<TrayIconLifetimeOptions>(o =>
+            {
+                o.ToolTipText = "Chat Prisma";
+                o.MouseDoubleClickAction = WindowsTray.HandleDoubleClick;
+                o.ContextMenuFactory = WindowsTray.CreateContextMenu;
+            });
             services.Configure<OpenAIConfig>(context.Configuration.GetSection("OpenAI"));
             
             // Services
-            services.AddHostedService<GlobalKeyInterceptorHostedService>();
-            services.AddSingleton<GlobalKeyInterceptorKeyboardHooks>();
-            services.AddSingleton<IKeyboardHooks>(s => s.GetRequiredService<GlobalKeyInterceptorKeyboardHooks>());
-
+            services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();
             services.AddSingleton<ITextExtractor, ClipboardTextExtractor>();
-
             services.AddSingleton<ITextWriter, SendKeysTextWriter>();
-            
             services.AddSingleton<IChatBotService, OpenAIChatBotService>();
+            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+            services.AddSingleton<IDialogService, DialogService>();
 
+            // Hosted Services
+            services.AddHostedService<StartKeyboardHooksHostedService>();
             services.AddHostedService<PrismaHostedService>();
         })
         .UseNLog();

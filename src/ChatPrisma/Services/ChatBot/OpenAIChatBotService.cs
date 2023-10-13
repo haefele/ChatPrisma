@@ -1,5 +1,4 @@
 using Azure.AI.OpenAI;
-using ChatPrisma.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Services.ChatBot;

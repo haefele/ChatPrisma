@@ -4,7 +4,7 @@ using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.TextWriter;
 using Microsoft.Extensions.Hosting;
 
-namespace ChatPrisma.Services;
+namespace ChatPrisma.HostedServices;
 
 public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor textExtractor, ITextWriter textWriter, IChatBotService chatBotService) : IHostedService
 {

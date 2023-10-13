@@ -1,24 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
+    <PropertyGroup Label="Project Settings">
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+        <TargetPlatformMinVersion>7.0</TargetPlatformMinVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
         <UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
-      <PackageReference Include="GlobalKeyInterceptor" Version="1.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-rc.2.23479.6" />
-      <PackageReference Include="NLog.Extensions.Hosting" Version="5.3.4" />
-      <PackageReference Include="WPF-UI" Version="2.1.0" />
+    <ItemGroup Label="Dependencies">
+        <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+        <PackageReference Include="GlobalKeyInterceptor" Version="1.0.0" />
+        <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-rc.2.23479.6" />
+        <PackageReference Include="NLog.Extensions.Hosting" Version="5.3.4" />
+        <PackageReference Include="FluentIcons.WPF" Version="1.1.220" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <ItemGroup Label="Config">
+        <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+    
+    <ItemGroup Label="Global Usings">
+        <Using Remove="System.Windows.Forms" />
     </ItemGroup>
 
 </Project>

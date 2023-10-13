@@ -1,4 +1,5 @@
 using System.Text;
+using System.Windows.Forms;
 
 namespace ChatPrisma.Services.TextWriter;
 

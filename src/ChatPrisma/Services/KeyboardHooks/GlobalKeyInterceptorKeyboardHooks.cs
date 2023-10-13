@@ -9,7 +9,7 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
     public event EventHandler? CombinationPressed;
     
     private KeyInterceptor? _interceptor;
-    public void Start()
+    public Task StartAsync()
     {
         var shortcuts = new[]
         {
@@ -20,18 +20,22 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
         this._interceptor.ShortcutPressed += OnShortcutPressed;
         
         logger.LogInformation("Started listening for keyboard shortcuts.");
+
+        return Task.CompletedTask;
     }
-    public void Stop()
+    public Task StopAsync()
     {
         this._interceptor?.Dispose();
         this._interceptor = null;
         
         logger.LogInformation("Stopped listening for keyboard shortcuts.");
+
+        return Task.CompletedTask;
     }
 
     private void OnShortcutPressed(object? sender, ShortcutPressedEventArgs e)
     {
-        logger.LogTrace("Shortcut pressed: {Shortcut}", e.Shortcut);
+        logger.LogTrace("Shortcut pressed: {Shortcut}", e.Shortcut.Name);
         this.CombinationPressed?.Invoke(this, EventArgs.Empty);
     }
 }
