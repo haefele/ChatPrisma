@@ -45,7 +45,7 @@ public static class WindowsTray
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
         
         var app = viewModelFactory.CreateSettingsViewModel();
-        dialogService.ShowWindow(app);
+        dialogService.ShowDialog(app);
     }
 
     private static void ShowAbout(IServiceProvider serviceProvider)
@@ -54,6 +54,6 @@ public static class WindowsTray
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
         
         var app = viewModelFactory.CreateAboutViewModel();
-        dialogService.ShowWindow(app);
+        dialogService.ShowDialog(app);
     }
 }

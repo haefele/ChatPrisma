@@ -64,12 +64,12 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
         // Read it before we close the window, because that will deactivate the window and set AutoPaste to false
         bool autoPaste = this.AutoPaste;
         
-        this.Close?.Invoke();
+        this.Close?.Invoke(true);
 
         await clipboardTextWriter.CopyTextAsync(this.CurrentText, autoPaste);
     }
 
-    public event Action? Close;
+    public event Action<bool?>? Close;
     public void Configure(Window window)
     {
         window.Deactivated += (sender, args) =>

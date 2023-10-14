@@ -9,7 +9,7 @@ namespace ChatPrisma.Services.Dialogs;
 
 public class DialogService(IServiceProvider serviceProvider, IOptions<ApplicationOptions> applicationOptions) : IDialogService
 {
-    public void ShowWindow(object viewModel)
+    public bool? ShowDialog(object viewModel)
     {
         var viewType = this.TryResolveViewType(viewModel);
 
@@ -37,9 +37,10 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
 
         if (viewModel is ICloseWindow closeWindow)
         {
-            closeWindow.Close += () =>
+            closeWindow.Close += dialogResult =>
             {
-                window.Close();
+                // This automatically closes the window
+                window.DialogResult = dialogResult;
             };
         }
 
@@ -48,7 +49,7 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
             configureWindow.Configure(window);
         }
         
-        window.Show();
+        return window.ShowDialog();
     }
 
     private Type? TryResolveViewType(object viewModel)

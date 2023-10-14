@@ -2,5 +2,5 @@ namespace ChatPrisma.Services.Dialogs;
 
 public interface IDialogService
 {
-    void ShowWindow(object viewModel);
+    bool? ShowDialog(object viewModel);
 }
