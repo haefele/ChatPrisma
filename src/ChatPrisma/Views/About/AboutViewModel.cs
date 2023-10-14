@@ -30,7 +30,7 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
         new ThirdPartyLibrary("NLog",                                 "https://nlog-project.org/",                                                    "BSD 3-Clause", "https://github.com/NLog/NLog/blob/dev/LICENSE.txt"),
         new ThirdPartyLibrary("Hardcodet WPF NotifyIcon",             "https://github.com/hardcodet/wpf-notifyicon",                                  "CPOL",         "https://github.com/hardcodet/wpf-notifyicon/blob/develop/LICENSE"),
         new ThirdPartyLibrary("Emoji.Wpf",                            "https://github.com/samhocevar/emoji.wpf",                                      "WTFPL",        "https://github.com/samhocevar/emoji.wpf/blob/main/COPYING"),
-        
+        new ThirdPartyLibrary("DevExpress.Mvvm",                      "https://github.com/DevExpress/DevExpress.Mvvm.Free",                           "MIT",          "https://github.com/DevExpress/DevExpress.Mvvm.Free/blob/main/LICENSE"),
     };
 }
 

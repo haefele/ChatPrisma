@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatPrisma.Views.TextEnhancement"
              xmlns:fluentIcons="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
+             xmlns:fluentIconsCommon="clr-namespace:FluentIcons.Common;assembly=FluentIcons.Common"
              xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -42,8 +43,12 @@
                     <KeyBinding Key="Escape" Command="{Binding ApplyInstructionCancelCommand}" />
                 </TextBox.InputBindings>
             </TextBox>
-            <Button Grid.Column="1" Command="{Binding ApplyInstructionCommand}">
-                <fluentIcons:SymbolIcon Symbol="Send" /> 
+            <Button Grid.Column="1" 
+                    Command="{Binding ApplyInstructionCommand}"
+                    ToolTip="{DXBinding 'WindowDeactivated ? `Der Text wird nur in die Zwischenablage kopiert, Sie müssen ihn selbst einfügen.` : `Der Text wird automatisch eingetragen.`'}">
+                <Grid>
+                    <fluentIcons:SymbolIcon Symbol="{DXBinding 'WindowDeactivated ? $fluentIconsCommon:Symbol.Copy : $fluentIconsCommon:Symbol.Send'}" />
+                </Grid>
             </Button>
         </Grid>
     </Grid>

@@ -42,6 +42,11 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
                 window.Close();
             };
         }
+
+        if (viewModel is IConfigureWindow configureWindow)
+        {
+            configureWindow.Configure(window);
+        }
         
         window.Show();
     }
