@@ -20,21 +20,36 @@ public partial class TextEnhancementViewModel(string inputText, ITextWriter text
     [ObservableProperty] 
     private string _instruction = string.Empty;
 
-    [RelayCommand]
-    private async Task ApplyInstruction()
+    public event EventHandler? ApplyInstructionCancelled;
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task ApplyInstruction(CancellationToken token)
     {
-        this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.User, this.Instruction));
-
-        var response = chatBotService.GetResponse(this._allMessages);
-
-        this.CurrentText = string.Empty;
-        await foreach (var part in response)
+        string previousInstruction = this.Instruction;
+        string previousText = this.CurrentText;
+        try
         {
-            this.CurrentText += part;
+            this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.User, this.Instruction));
+            this.Instruction = string.Empty;
+
+            var response = chatBotService.GetResponse(this._allMessages, token);
+
+            this.CurrentText = string.Empty;
+            await foreach (var part in response)
+            {
+                this.CurrentText += part;
+            }
+            
+            this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, this.CurrentText));
         }
-        
-        this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, this.CurrentText));
-        this.Instruction = string.Empty;
+        catch (OperationCanceledException)
+        {
+            this._allMessages.Remove(this._allMessages[^1]);
+            this.Instruction = previousInstruction;
+            this.CurrentText = previousText;
+            
+            this.ApplyInstructionCancelled?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     [RelayCommand]
