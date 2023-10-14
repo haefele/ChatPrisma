@@ -95,7 +95,7 @@ public partial class App
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();
             services.AddSingleton<ITextExtractor, ClipboardTextExtractor>();
-            services.AddSingleton<ITextWriter, ClipboardSendKeysTextWriter>();
+            services.AddSingleton<IClipboardTextWriter, SendKeysClipboardTextWriter>();
             services.AddSingleton<IChatBotService, OpenAIChatBotService>();
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IDialogService, DialogService>();

@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ChatPrisma.Views.TextEnhancement;
 
-public partial class TextEnhancementViewModel(string inputText, ITextWriter textWriter, IChatBotService chatBotService) : ObservableObject, ICloseWindow, IConfigureWindow
+public partial class TextEnhancementViewModel(string inputText, IClipboardTextWriter clipboardTextWriter, IChatBotService chatBotService) : ObservableObject, ICloseWindow, IConfigureWindow
 {
     private List<PrismaChatMessage> _allMessages = new()
     {
@@ -66,14 +66,7 @@ public partial class TextEnhancementViewModel(string inputText, ITextWriter text
         
         this.Close?.Invoke();
 
-        if (windowDeactivated)
-        {
-            Clipboard.SetText(this.CurrentText);
-        }
-        else
-        {
-            await textWriter.WriteTextAsync(this.CurrentText);            
-        }
+        await clipboardTextWriter.CopyTextAsync(this.CurrentText, autoPaste: windowDeactivated is false);
     }
 
     public event Action? Close;
