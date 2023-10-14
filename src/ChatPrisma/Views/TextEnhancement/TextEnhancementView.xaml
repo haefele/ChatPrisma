@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatPrisma.Views.TextEnhancement"
-             xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
+             xmlns:fluentIcons="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
+             xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -22,8 +23,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <TextBlock Text="{Binding CurrentText}" 
-                   TextWrapping="Wrap" />
+        <emoji:TextBlock Grid.Row="0" 
+                         Text="{Binding CurrentText}"
+                         TextWrapping="Wrap"/>
         
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -41,7 +43,7 @@
                 </TextBox.InputBindings>
             </TextBox>
             <Button Grid.Column="1" Command="{Binding ApplyInstructionCommand}">
-                <wpf:SymbolIcon Symbol="Send" /> 
+                <fluentIcons:SymbolIcon Symbol="Send" /> 
             </Button>
         </Grid>
     </Grid>

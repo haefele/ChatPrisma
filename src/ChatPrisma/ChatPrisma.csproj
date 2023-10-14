@@ -14,6 +14,7 @@
     <ItemGroup Label="Dependencies">
         <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.8" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+        <PackageReference Include="Emoji.Wpf" Version="0.3.4" />
         <PackageReference Include="GlobalKeyInterceptor" Version="1.0.0" />
         <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-rc.2.23479.6" />
