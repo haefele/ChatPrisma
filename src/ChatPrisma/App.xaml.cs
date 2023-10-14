@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using ChatPrisma.Host;
 using ChatPrisma.HostedServices;
+using ChatPrisma.Options;
 using ChatPrisma.Services;
 using ChatPrisma.Services.ChatBot;
 using ChatPrisma.Services.Dialogs;
@@ -69,15 +70,18 @@ public partial class App
             services.AddSingleton<Application>(this);
             services.AddSingleton<IHostLifetime, TrayIconLifetime>();
             
-            // Config
+            // Options
             services.Configure<TrayIconLifetimeOptions>(o =>
             {
-                o.ToolTipText = "Chat Prisma";
                 o.MouseDoubleClickAction = WindowsTray.HandleDoubleClick;
                 o.ContextMenuFactory = WindowsTray.CreateContextMenu;
             });
-            services.Configure<OpenAIConfig>(context.Configuration.GetSection("OpenAI"));
-            
+            services.Configure<OpenAIOptions>(context.Configuration.GetSection("OpenAI"));
+            services.Configure<ApplicationOptions>(o =>
+            {
+                o.ApplicationName = "Chat Prisma";
+            });
+
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();
             services.AddSingleton<ITextExtractor, ClipboardTextExtractor>();

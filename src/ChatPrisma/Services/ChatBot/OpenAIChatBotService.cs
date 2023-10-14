@@ -1,9 +1,10 @@
 using Azure.AI.OpenAI;
+using ChatPrisma.Options;
 using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Services.ChatBot;
 
-public class OpenAIChatBotService(IOptions<OpenAIConfig> openAiConfig) : IChatBotService
+public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig) : IChatBotService
 {
     private readonly OpenAIClient _client = new(openAiConfig.Value.ApiKey ?? throw new PrismaException("OpenAI API Key is missing"));
 
