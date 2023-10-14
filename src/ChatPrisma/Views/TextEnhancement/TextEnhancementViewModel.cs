@@ -15,7 +15,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
     };
 
     [ObservableProperty]
-    private bool _windowDeactivated = false;
+    private bool _autoPaste = true;
     
     [ObservableProperty] 
     private string _currentText = inputText;
@@ -61,22 +61,20 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
     [RelayCommand]
     private async Task AcceptText()
     {
-        // Read it before we close the window, because that will deactivate the window and set it to true
-        bool windowDeactivated = this.WindowDeactivated;
+        // Read it before we close the window, because that will deactivate the window and set AutoPaste to false
+        bool autoPaste = this.AutoPaste;
         
         this.Close?.Invoke();
 
-        await clipboardTextWriter.CopyTextAsync(this.CurrentText, autoPaste: windowDeactivated is false);
+        await clipboardTextWriter.CopyTextAsync(this.CurrentText, autoPaste);
     }
 
     public event Action? Close;
     public void Configure(Window window)
     {
-        window.Deactivated += this.WindowOnDeactivated;
-    }
-
-    private void WindowOnDeactivated(object? sender, EventArgs e)
-    {
-        this.WindowDeactivated = true;
+        window.Deactivated += (sender, args) =>
+        {
+            this.AutoPaste = false;
+        };
     }
 }

@@ -45,9 +45,9 @@
             </TextBox>
             <Button Grid.Column="1" 
                     Command="{Binding ApplyInstructionCommand}"
-                    ToolTip="{DXBinding 'WindowDeactivated ? `Der Text wird nur in die Zwischenablage kopiert, Sie müssen ihn selbst einfügen.` : `Der Text wird automatisch eingetragen.`'}">
+                    ToolTip="{DXBinding 'AutoPaste ? `Der Text wird automatisch eingetragen.` : `Der Text wird nur in die Zwischenablage kopiert, Sie müssen ihn selbst einfügen.`'}">
                 <Grid>
-                    <fluentIcons:SymbolIcon Symbol="{DXBinding 'WindowDeactivated ? $fluentIconsCommon:Symbol.Copy : $fluentIconsCommon:Symbol.Send'}" />
+                    <fluentIcons:SymbolIcon Symbol="{DXBinding 'AutoPaste ? $fluentIconsCommon:Symbol.Send : $fluentIconsCommon:Symbol.Copy'}" />
                 </Grid>
             </Button>
         </Grid>
