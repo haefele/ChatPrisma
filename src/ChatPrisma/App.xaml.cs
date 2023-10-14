@@ -80,6 +80,7 @@ public partial class App
             services.Configure<ApplicationOptions>(o =>
             {
                 o.ApplicationName = "Chat Prisma";
+                o.ApplicationVersion = this.GetType().Assembly.GetName().Version?.ToString() ?? string.Empty;
             });
 
             // Services

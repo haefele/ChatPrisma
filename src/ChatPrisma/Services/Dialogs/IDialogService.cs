@@ -1,5 +1,7 @@
 using System.Windows;
+using System.Windows.Data;
 using ChatPrisma.Options;
+using ChatPrisma.Themes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -28,8 +30,15 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
             SizeToContent = SizeToContent.WidthAndHeight,
             ResizeMode = ResizeMode.NoResize,
-            Title = applicationOptions.Value.ApplicationName,
         };
+
+        window.SetBinding(Window.TitleProperty, new Binding
+        {
+            Path = new PropertyPath(Attached.WindowTitleProperty),
+            Source = view,
+            FallbackValue = applicationOptions.Value.ApplicationName,
+        });
+        
         window.Show();
     }
 

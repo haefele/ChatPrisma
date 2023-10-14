@@ -11,6 +11,8 @@
              
              d:DataContext="{d:DesignInstance local:AboutViewModel}"
              
+             themes:Attached.WindowTitle="Über"
+             
              Width="300">
     
     <StackPanel>
@@ -18,10 +20,10 @@
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Themes/Images/ChatPrisma-Icon.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel>
-                    <TextBlock Text="ChatPrisma" />
+                    <TextBlock Text="{Binding ApplicationName}" />
                     <TextBlock>
                         <Run Text="Version" />
-                        <Run Text="1.0.0.0" />
+                        <Run Text="{Binding ApplicationVersion}" />
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

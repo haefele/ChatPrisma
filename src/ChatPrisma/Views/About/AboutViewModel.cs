@@ -1,12 +1,17 @@
 using System.Collections.ObjectModel;
+using ChatPrisma.Options;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Views.About;
 
-public partial class AboutViewModel : ObservableObject
+public partial class AboutViewModel(IOptions<ApplicationOptions> options) : ObservableObject
 {
     [ObservableProperty] 
-    private string _applicationName = "Heyo";
+    private string _applicationName = options.Value.ApplicationName;
+
+    [ObservableProperty]
+    private string _applicationVersion = options.Value.ApplicationVersion;
 
     [ObservableProperty] 
     private ObservableCollection<ThirdPartyLibrary> _thirdPartyLibraries = new()

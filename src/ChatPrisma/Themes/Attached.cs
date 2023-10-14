@@ -11,9 +11,20 @@ public static class Attached
     {
         element.SetValue(IconProperty, value);
     }
-
     public static FluentIcons.Common.Symbol GetIcon(DependencyObject element)
     {
         return (FluentIcons.Common.Symbol)element.GetValue(IconProperty);
+    }
+
+    public static readonly DependencyProperty WindowTitleProperty = DependencyProperty.RegisterAttached(
+        "WindowTitle", typeof(string), typeof(Attached), new PropertyMetadata(default(string)));
+
+    public static void SetWindowTitle(DependencyObject element, string value)
+    {
+        element.SetValue(WindowTitleProperty, value);
+    }
+    public static string GetWindowTitle(DependencyObject element)
+    {
+        return (string)element.GetValue(WindowTitleProperty);
     }
 }
