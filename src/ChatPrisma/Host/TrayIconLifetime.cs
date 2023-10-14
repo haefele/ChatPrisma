@@ -30,7 +30,7 @@ public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetime
 
             this._icon.ContextMenu.Items.Add(new MenuItem
             {
-                Icon = new SymbolIcon { Symbol = Symbol.ErrorCircle },
+                Icon = new SymbolIcon { Symbol = Symbol.Battery0 },
                 Header = trayIconLifetimeOptions.Value.AppShutdownHeader,
                 Command = new RelayCommand(app.Shutdown)
             });

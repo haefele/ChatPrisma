@@ -16,8 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Hosting;
-using Application = System.Windows.Application;
-using MessageBox = System.Windows.MessageBox;
 
 namespace ChatPrisma;
 
@@ -71,17 +69,28 @@ public partial class App
             services.AddSingleton<IHostLifetime, TrayIconLifetime>();
             
             // Options
-            services.Configure<TrayIconLifetimeOptions>(o =>
-            {
-                o.MouseDoubleClickAction = WindowsTray.HandleDoubleClick;
-                o.ContextMenuFactory = WindowsTray.CreateContextMenu;
-            });
-            services.Configure<OpenAIOptions>(context.Configuration.GetSection("OpenAI"));
-            services.Configure<ApplicationOptions>(o =>
-            {
-                o.ApplicationName = "Chat Prisma";
-                o.ApplicationVersion = this.GetType().Assembly.GetName().Version?.ToString() ?? string.Empty;
-            });
+            services.AddOptions<TrayIconLifetimeOptions>() 
+                .Configure(o =>
+                {
+                    o.MouseDoubleClickAction = WindowsTray.HandleDoubleClick;
+                    o.ContextMenuFactory = WindowsTray.CreateContextMenu;
+                    o.AppShutdownEnabled = true;
+                    o.AppShutdownHeader = "Beenden";
+                });
+            services.AddOptions<OpenAIOptions>()
+                .Bind(context.Configuration.GetSection("OpenAI"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+            services.AddOptions<ApplicationOptions>()
+                .Configure(o =>
+                {
+                    o.ApplicationName = "Chat Prisma";
+                    o.ApplicationVersion = this.GetType().Assembly.GetName().Version?.ToString() ?? string.Empty;
+                    o.ContactName = "Daniel Häfele";
+                    o.ContactEmailAddress = "haefele@xemio.net";
+                })
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();

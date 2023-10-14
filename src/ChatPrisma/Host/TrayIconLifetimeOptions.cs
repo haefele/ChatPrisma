@@ -8,6 +8,6 @@ public class TrayIconLifetimeOptions
 
     public Func<IServiceProvider, ContextMenu>? ContextMenuFactory { get; set; }
 
-    public bool AppShutdownEnabled { get; set; } = true;
-    public string AppShutdownHeader { get; set; } = "Beenden";
+    public bool AppShutdownEnabled { get; set; }
+    public string? AppShutdownHeader { get; set; }
 }
