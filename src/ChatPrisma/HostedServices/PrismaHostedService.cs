@@ -1,12 +1,12 @@
-using ChatPrisma.Services.ChatBot;
+using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.KeyboardHooks;
 using ChatPrisma.Services.TextExtractor;
-using ChatPrisma.Services.TextWriter;
+using ChatPrisma.Services.ViewModels;
 using Microsoft.Extensions.Hosting;
 
 namespace ChatPrisma.HostedServices;
 
-public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor textExtractor, ITextWriter textWriter, IChatBotService chatBotService) : IHostedService
+public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor textExtractor, IDialogService dialogService, IViewModelFactory viewModelFactory) : IHostedService
 {
     public  Task StartAsync(CancellationToken cancellationToken)
     {
@@ -26,9 +26,7 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
         if (text is null)
             return;
 
-        // TODO: Show Chat window and let user improve on the text
-
-        var response = chatBotService.GetResponse(text, previousMessages: null);
-        await textWriter.WriteTextAsync(response);
+        var textEnhancementViewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
+        dialogService.ShowWindow(textEnhancementViewModel);
     }
 }
