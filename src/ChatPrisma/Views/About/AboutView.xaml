@@ -8,18 +8,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             
              d:DataContext="{d:DesignInstance local:AboutViewModel}"
              
              Width="300">
     
     <StackPanel>
         <GroupBox Header="About" themes:Attached.Icon="Info">
-            <StackPanel>
-                <TextBlock Text="ChatPrisma" />
-                <TextBlock>
-                    <Run Text="Version " />
-                    <Run Text="1.0.0.0" />
-                </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Themes/Images/ChatPrisma-Icon.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" />
+                <StackPanel>
+                    <TextBlock Text="ChatPrisma" />
+                    <TextBlock>
+                        <Run Text="Version" />
+                        <Run Text="1.0.0.0" />
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         
