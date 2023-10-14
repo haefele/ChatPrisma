@@ -38,6 +38,11 @@ public static class WindowsTray
 
         void ShowSettings()
         {
+            var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
+            var dialogService = serviceProvider.GetRequiredService<IDialogService>();
+        
+            var app = viewModelFactory.CreateSettingsViewModel();
+            dialogService.ShowWindow(app);
         }
     }
 }
