@@ -2,5 +2,5 @@ namespace ChatPrisma.Services.TextWriter;
 
 public interface ITextWriter
 {
-    Task WriteTextAsync(IAsyncEnumerable<string> text);
+    Task WriteTextAsync(string text);
 }

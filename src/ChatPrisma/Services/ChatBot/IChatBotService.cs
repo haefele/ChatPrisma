@@ -2,5 +2,5 @@ namespace ChatPrisma.Services.ChatBot;
 
 public interface IChatBotService
 {
-    IAsyncEnumerable<string> GetResponse(string newMessage, List<PrismaChatMessage>? previousMessages);
+    IAsyncEnumerable<string> GetResponse(List<PrismaChatMessage> messages);
 }

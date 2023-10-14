@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using ChatPrisma.Services.ChatBot;
 using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.TextWriter;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,22 +7,15 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ChatPrisma.Views.TextEnhancement;
 
-public partial class TextEnhancementViewModel : ObservableObject, ICloseWindow
+public partial class TextEnhancementViewModel(string inputText, ITextWriter textWriter, IChatBotService chatBotService) : ObservableObject, ICloseWindow
 {
-    private readonly ITextWriter _textWriter;
-
-    public TextEnhancementViewModel(string inputText, ITextWriter textWriter)
+    private List<PrismaChatMessage> _allMessages = new()
     {
-        _textWriter = textWriter;
-        
-        this._messages.Add(new MessageViewModel
-        {
-            Message = inputText
-        });
-    }
-
+        new PrismaChatMessage(PrismaChatRole.System, ChatPrompts.System(inputText))
+    };
+    
     [ObservableProperty] 
-    private ObservableCollection<MessageViewModel> _messages = new();
+    private string _currentText = inputText;
 
     [ObservableProperty] 
     private string _instruction = string.Empty;
@@ -29,13 +23,17 @@ public partial class TextEnhancementViewModel : ObservableObject, ICloseWindow
     [RelayCommand]
     private async Task ApplyInstruction()
     {
-        await Task.CompletedTask;
-        
-        this.Messages.Add(new MessageViewModel
+        this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.User, this.Instruction));
+
+        var response = chatBotService.GetResponse(this._allMessages);
+
+        this.CurrentText = string.Empty;
+        await foreach (var part in response)
         {
-            Message = this.Instruction,
-        });
+            this.CurrentText += part;
+        }
         
+        this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, this.CurrentText));
         this.Instruction = string.Empty;
     }
 
@@ -43,25 +41,9 @@ public partial class TextEnhancementViewModel : ObservableObject, ICloseWindow
     private async Task AcceptText()
     {
         this.Close?.Invoke();
-
-        // Give the user some time to take their hands off the keyboard
-        await Task.Delay(TimeSpan.FromMilliseconds(200));
         
-        await this._textWriter.WriteTextAsync(this.Get());
-    }
-
-    private async IAsyncEnumerable<string> Get()
-    {
-        await Task.CompletedTask;
-        
-        yield return this.Messages.Last().Message;
+        await textWriter.WriteTextAsync(this.CurrentText);
     }
 
     public event Action? Close;
-}
-
-public partial class MessageViewModel : ObservableObject
-{
-    [ObservableProperty]
-    private string _message;
 }
