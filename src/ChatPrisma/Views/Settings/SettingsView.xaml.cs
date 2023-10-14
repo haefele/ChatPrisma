@@ -1,11 +1,5 @@
-using System.Windows.Controls;
-
 namespace ChatPrisma.Views.Settings;
 
-public partial class SettingsView : UserControl
+public partial class SettingsView
 {
-    public SettingsView()
-    {
-        InitializeComponent();
-    }
 }

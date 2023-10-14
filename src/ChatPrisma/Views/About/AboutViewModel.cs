@@ -13,6 +13,12 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
     [ObservableProperty]
     private string _applicationVersion = options.Value.ApplicationVersion;
 
+    [ObservableProperty]
+    private string _contactName = options.Value.ContactName;
+
+    [ObservableProperty]
+    private string _contactEmailAddress = options.Value.ContactEmailAddress;
+
     [ObservableProperty] 
     private ObservableCollection<ThirdPartyLibrary> _thirdPartyLibraries = new()
     {

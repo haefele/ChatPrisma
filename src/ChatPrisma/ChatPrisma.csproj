@@ -2,7 +2,7 @@
 
     <PropertyGroup Label="Project Settings">
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <TargetPlatformMinVersion>7.0</TargetPlatformMinVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>

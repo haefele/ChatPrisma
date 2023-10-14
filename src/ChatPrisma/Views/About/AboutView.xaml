@@ -31,8 +31,8 @@
         
         <GroupBox Header="Contact" themes:Attached.Icon="Mail">
             <StackPanel>
-                <TextBlock Text="Daniel Häfele" />
-                <TextBlock><Hyperlink Click="Contact_EmailHyperlink_OnClick">haefele@xemio.net</Hyperlink></TextBlock>
+                <TextBlock Text="{Binding ContactName}" />
+                <TextBlock><Hyperlink Click="Contact_EmailHyperlink_OnClick"><Run Text="{Binding ContactEmailAddress}" /></Hyperlink></TextBlock>
             </StackPanel>
         </GroupBox>
         

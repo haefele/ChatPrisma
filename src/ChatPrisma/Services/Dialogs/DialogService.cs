@@ -17,6 +17,7 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
             throw new PrismaException();
 
         var view = (FrameworkElement)ActivatorUtilities.CreateInstance(serviceProvider, viewType);
+        this.InvokeInitializeComponents(view);
         view.DataContext = viewModel;
 
         var window = new Window
@@ -49,5 +50,11 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
     {
         var viewTypeFullName = viewModel.GetType().FullName?.Replace("ViewModel", "View");
         return viewModel.GetType().Assembly.GetType(viewTypeFullName ?? string.Empty);
+    }
+
+    private void InvokeInitializeComponents(FrameworkElement view)
+    {
+        var initializeComponent = view.GetType().GetMethod("InitializeComponent");
+        initializeComponent?.Invoke(view, null);
     }
 }

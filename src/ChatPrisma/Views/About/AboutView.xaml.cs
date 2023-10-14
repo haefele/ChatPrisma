@@ -6,14 +6,11 @@ namespace ChatPrisma.Views.About;
 
 public partial class AboutView
 {
-    public AboutView()
-    {
-        this.InitializeComponent();
-    }
+    public AboutViewModel ViewModel => (AboutViewModel)this.DataContext;
 
     private void Contact_EmailHyperlink_OnClick(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo("mailto:haefele@xemio.net") { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo("mailto:" + this.ViewModel.ContactEmailAddress) { UseShellExecute = true });
     }
     
     private void ThirdPartyLibrary_HomepageHyperlink_OnClick(object sender, RoutedEventArgs e)
