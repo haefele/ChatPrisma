@@ -14,6 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatPrisma", "src\ChatPrisma\ChatPrisma.csproj", "{B40E9012-85A0-47D2-A189-E8644831A4EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B81B666F-F2C6-4C5D-A240-E296CB1F8846}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{AA1D1EB4-DCFB-47BA-88AF-D9B6C635509D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B40E9012-85A0-47D2-A189-E8644831A4EC} = {8451F916-1F71-4989-9F57-382F082A2594}
+		{AA1D1EB4-DCFB-47BA-88AF-D9B6C635509D} = {B81B666F-F2C6-4C5D-A240-E296CB1F8846}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B40E9012-85A0-47D2-A189-E8644831A4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

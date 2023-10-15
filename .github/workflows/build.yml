@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        global-json-file: global.json
+        
+    - name: Restore Dependencies
+      run: dotnet restore
+      
+    - name: Build
+      shell: pwsh
+      run: |
+        $outputPath = & dotnet publish "./src/ChatPrisma/" --getProperty:PublishDir
+        cd $outputPath
+        ren "ChatPrisma.exe" "Chat Prisma.exe"
+        Compress-Archive -Path $outputPath -DestinationPath "$outputPath/Chat Prisma.zip"
+        echo "output_path=$outputPath" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: App
+        path: "${{ env.output_path }}/Chat Prisma.zip"
+        if-no-files-found: error
+
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "${{ env.output_path }}/Chat Prisma.zip"
+        tag: "v${{ env.GitBuildVersionSimple }}"
