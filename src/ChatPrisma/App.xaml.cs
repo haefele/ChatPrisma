@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using ChatPrisma.Host;
 using ChatPrisma.HostedServices;
 using ChatPrisma.Options;
+using ChatPrisma.Services.AutoStart;
 using ChatPrisma.Services.ChatBot;
 using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.KeyboardHooks;
@@ -13,6 +14,7 @@ using ChatPrisma.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NLog.Extensions.Hosting;
 using Onova;
 using Onova.Models;
@@ -108,6 +110,15 @@ public partial class App : ISingleInstance
                 })
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
+            services.AddOptions<UpdaterOptions>()
+                .Configure(o =>
+                {
+                    o.GitHubUsername = "haefele";
+                    o.GitHubRepository = "ChatPrisma";
+                    o.GitHubReleaseAssetName = "App.zip";
+                })
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();
@@ -116,10 +127,18 @@ public partial class App : ISingleInstance
             services.AddSingleton<IChatBotService, OpenAIChatBotService>();
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IDialogService, DialogService>();
-            services.AddSingleton<IUpdateManager>(new UpdateManager(
-                new AssemblyMetadata("Chat Prisma", Version.Parse(ThisAssembly.AssemblyVersion), Environment.ProcessPath!),
-                new GithubPackageResolver("haefele", "ChatPrisma", "App.zip"),
-                new ZipPackageExtractor()));
+            services.AddSingleton<AssemblyMetadata>(serviceProvider =>
+            {
+                var applicationOptions = serviceProvider.GetRequiredService<IOptions<ApplicationOptions>>().Value;
+                return new AssemblyMetadata(applicationOptions.ApplicationName, Version.Parse(applicationOptions.ApplicationVersion), Environment.ProcessPath!);
+            });
+            services.AddSingleton<IPackageResolver>(serviceProvider =>
+            {
+                var updaterOptions = serviceProvider.GetRequiredService<IOptions<UpdaterOptions>>().Value;
+                return new GithubPackageResolver(updaterOptions.GitHubUsername, updaterOptions.GitHubRepository, updaterOptions.GitHubReleaseAssetName);
+            });
+            services.AddSingleton<IPackageExtractor, ZipPackageExtractor>();
+            services.AddSingleton<IUpdateManager, UpdateManager>();
 
             // Hosted Services
             services.AddHostedService<StartKeyboardHooksHostedService>();
