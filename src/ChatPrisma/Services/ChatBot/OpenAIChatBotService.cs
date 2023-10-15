@@ -21,7 +21,7 @@ public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig, ILogger<
         logger.LogInformation("Calling ChatGPT model {Model}", openAiConfig.Value.Model);
 
         var response = await this._client.GetChatCompletionsStreamingAsync(openAiConfig.Value.Model, chatCompletionsOptions, token);
-        
+
         using var completions = response.Value;
 
         await foreach (var choice in completions.GetChoicesStreaming(token))
@@ -33,7 +33,7 @@ public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig, ILogger<
             }
         }
     }
-    
+
     private ChatMessage ConvertChatMessage(PrismaChatMessage message)
     {
         var openAiChatRole = message.Role switch
@@ -41,9 +41,9 @@ public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig, ILogger<
             PrismaChatRole.System => ChatRole.System,
             PrismaChatRole.User => ChatRole.User,
             PrismaChatRole.Assistant => ChatRole.Assistant,
-            _ => throw new ArgumentOutOfRangeException(nameof(message.Role), message.Role, null)
+            _ => throw new PrismaException($"Unexpected {nameof(PrismaChatRole)} value of {message.Role}."),
         };
-        
+
         return new ChatMessage(openAiChatRole, message.Content);
     }
 }

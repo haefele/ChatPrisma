@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Host;
 
-public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetimeOptions, IOptions<ApplicationOptions> applicationOptions, Application app, IServiceProvider serviceProvider) : IHostLifetime
+public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetimeOptions, IOptions<ApplicationOptions> applicationOptions, Application app, IServiceProvider serviceProvider) : IHostLifetime, IDisposable
 {
     private TaskbarIcon? _icon;
 
@@ -25,7 +25,7 @@ public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetime
 
         if (trayIconLifetimeOptions.Value.AppShutdownEnabled)
         {
-            if (this._icon.ContextMenu.Items.Count > 0) 
+            if (this._icon.ContextMenu.Items.Count > 0)
                 this._icon.ContextMenu.Items.Add(new Separator());
 
             this._icon.ContextMenu.Items.Add(new MenuItem
@@ -44,7 +44,7 @@ public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetime
         if (this._icon is not null)
         {
             this._icon.TrayMouseDoubleClick -= this.IconOnTrayMouseDoubleClick;
-            this._icon?.Dispose();
+            this._icon.Dispose();
             this._icon = null;
         }
 
@@ -54,5 +54,15 @@ public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetime
     private void IconOnTrayMouseDoubleClick(object sender, RoutedEventArgs e)
     {
         trayIconLifetimeOptions.Value.MouseDoubleClickAction?.Invoke(serviceProvider);
+    }
+
+    public void Dispose()
+    {
+        if (this._icon is not null)
+        {
+            this._icon.TrayMouseDoubleClick -= this.IconOnTrayMouseDoubleClick;
+            this._icon.Dispose();
+            this._icon = null;
+        }
     }
 }

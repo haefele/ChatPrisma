@@ -17,7 +17,7 @@ public class PrismaException : Exception
     }
 
 #pragma warning disable SYSLIB0051
-    protected PrismaException(SerializationInfo info, StreamingContext context) 
+    protected PrismaException(SerializationInfo info, StreamingContext context)
         : base(info, context)
 #pragma warning restore SYSLIB0051
     {

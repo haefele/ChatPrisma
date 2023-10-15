@@ -12,7 +12,7 @@ public class SendKeysClipboardTextWriter : IClipboardTextWriter
         {
             SendKeys.SendWait("^v");
         }
-        
+
         await Task.CompletedTask;
     }
 }

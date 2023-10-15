@@ -7,7 +7,7 @@ namespace ChatPrisma.Views.About;
 
 public partial class AboutViewModel(IOptions<ApplicationOptions> options) : ObservableObject
 {
-    [ObservableProperty] 
+    [ObservableProperty]
     private string _applicationName = options.Value.ApplicationName;
 
     [ObservableProperty]
@@ -19,19 +19,20 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
     [ObservableProperty]
     private string _contactEmailAddress = options.Value.ContactEmailAddress;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private ObservableCollection<ThirdPartyLibrary> _thirdPartyLibraries = new()
     {
-        new ThirdPartyLibrary(".NET",                                 "https://dotnet.microsoft.com/",                                                "MIT",          "https://github.com/dotnet/core/blob/main/LICENSE.TXT"),
-        new ThirdPartyLibrary("CommunityToolkit.Mvvm",                "https://github.com/CommunityToolkit/dotnet",                                   "MIT",          "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"),
-        new ThirdPartyLibrary("Azure OpenAI client library for .NET", "https://learn.microsoft.com/en-us/dotnet/api/overview/azure/ai.openai-readme", "MIT",          "https://github.com/Azure/azure-sdk-for-net/blob/main/LICENSE.txt"),
-        new ThirdPartyLibrary("FluentIcons.WPF",                      "https://github.com/davidxuang/FluentIcons",                                    "MIT",          "https://github.com/davidxuang/FluentIcons/blob/master/LICENSE"),
-        new ThirdPartyLibrary("GlobalKeyInterceptor",                 "https://github.com/arcanexhoax/GlobalKeyInterceptor",                          "MIT",          "https://github.com/arcanexhoax/GlobalKeyInterceptor/blob/main/LICENSE"),
-        new ThirdPartyLibrary("NLog",                                 "https://nlog-project.org/",                                                    "BSD 3-Clause", "https://github.com/NLog/NLog/blob/dev/LICENSE.txt"),
-        new ThirdPartyLibrary("Hardcodet WPF NotifyIcon",             "https://github.com/hardcodet/wpf-notifyicon",                                  "CPOL",         "https://github.com/hardcodet/wpf-notifyicon/blob/develop/LICENSE"),
-        new ThirdPartyLibrary("Emoji.Wpf",                            "https://github.com/samhocevar/emoji.wpf",                                      "WTFPL",        "https://github.com/samhocevar/emoji.wpf/blob/main/COPYING"),
-        new ThirdPartyLibrary("DevExpress.Mvvm",                      "https://github.com/DevExpress/DevExpress.Mvvm.Free",                           "MIT",          "https://github.com/DevExpress/DevExpress.Mvvm.Free/blob/main/LICENSE"),
+        new ThirdPartyLibrary(".NET",                                 new("https://dotnet.microsoft.com/"),                                                "MIT",          new Uri("https://github.com/dotnet/core/blob/main/LICENSE.TXT")),
+        new ThirdPartyLibrary("CommunityToolkit.Mvvm",                new("https://github.com/CommunityToolkit/dotnet"),                                   "MIT",          new Uri("https://github.com/CommunityToolkit/dotnet/blob/main/License.md")),
+        new ThirdPartyLibrary("Azure OpenAI client library for .NET", new("https://learn.microsoft.com/en-us/dotnet/api/overview/azure/ai.openai-readme"), "MIT",          new Uri("https://github.com/Azure/azure-sdk-for-net/blob/main/LICENSE.txt")),
+        new ThirdPartyLibrary("FluentIcons.WPF",                      new("https://github.com/davidxuang/FluentIcons"),                                    "MIT",          new Uri("https://github.com/davidxuang/FluentIcons/blob/master/LICENSE")),
+        new ThirdPartyLibrary("GlobalKeyInterceptor",                 new("https://github.com/arcanexhoax/GlobalKeyInterceptor"),                          "MIT",          new Uri("https://github.com/arcanexhoax/GlobalKeyInterceptor/blob/main/LICENSE")),
+        new ThirdPartyLibrary("NLog",                                 new("https://nlog-project.org/"),                                                    "BSD 3-Clause", new Uri("https://github.com/NLog/NLog/blob/dev/LICENSE.txt")),
+        new ThirdPartyLibrary("Hardcodet WPF NotifyIcon",             new("https://github.com/hardcodet/wpf-notifyicon"),                                  "CPOL",         new Uri("https://github.com/hardcodet/wpf-notifyicon/blob/develop/LICENSE")),
+        new ThirdPartyLibrary("Emoji.Wpf",                            new("https://github.com/samhocevar/emoji.wpf"),                                      "WTFPL",        new Uri("https://github.com/samhocevar/emoji.wpf/blob/main/COPYING")),
+        new ThirdPartyLibrary("DevExpress.Mvvm",                      new("https://github.com/DevExpress/DevExpress.Mvvm.Free"),                           "MIT",          new Uri("https://github.com/DevExpress/DevExpress.Mvvm.Free/blob/main/LICENSE")),
+        new ThirdPartyLibrary("Nerdbank.GitVersioning",               new("https://github.com/dotnet/Nerdbank.GitVersioning"),                             "MIT",          new Uri("https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/LICENSE")),
     };
 }
 
-public record ThirdPartyLibrary(string Name, string HomepageUrl, string LicenseName, string LicenseUrl);
+public record ThirdPartyLibrary(string Name, Uri HomepageUrl, string LicenseName, Uri LicenseUrl);

@@ -16,11 +16,11 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
 
     [ObservableProperty]
     private bool _autoPaste = true;
-    
-    [ObservableProperty] 
+
+    [ObservableProperty]
     private string _currentText = inputText;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private string _instruction = string.Empty;
 
     public event EventHandler? ApplyInstructionCancelled;
@@ -29,8 +29,8 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
     private async Task ApplyInstruction(CancellationToken token)
     {
         // Remember those, if the user cancels the operation we can reset the UI
-        string previousInstruction = this.Instruction;
-        string previousText = this.CurrentText;
+        var previousInstruction = this.Instruction;
+        var previousText = this.CurrentText;
 
         try
         {
@@ -44,7 +44,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
             {
                 this.CurrentText += part;
             }
-            
+
             this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, this.CurrentText));
         }
         catch (OperationCanceledException)
@@ -53,7 +53,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
             this._allMessages.Remove(this._allMessages[^1]);
             this.Instruction = previousInstruction;
             this.CurrentText = previousText;
-            
+
             this.ApplyInstructionCancelled?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -62,17 +62,17 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
     private async Task AcceptText()
     {
         // Read it before we close the window, because that will deactivate the window and set AutoPaste to false
-        bool autoPaste = this.AutoPaste;
-        
-        this.Close?.Invoke(true);
+        var autoPaste = this.AutoPaste;
+
+        this.Close?.Invoke(this, new CloseDialogEventArgs(true));
 
         await clipboardTextWriter.CopyTextAsync(this.CurrentText, autoPaste);
     }
 
-    public event Action<bool?>? Close;
+    public event EventHandler<CloseDialogEventArgs>? Close;
     public void Configure(Window window)
     {
-        window.Deactivated += (sender, args) =>
+        window.Deactivated += (_, _) =>
         {
             this.AutoPaste = false;
         };

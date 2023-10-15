@@ -16,7 +16,7 @@ public static class WindowsTray
     {
         ShowAbout(serviceProvider);
     }
-    
+
     public static ContextMenu CreateContextMenu(IServiceProvider serviceProvider)
     {
         return new ContextMenu
@@ -25,7 +25,7 @@ public static class WindowsTray
             {
                 new MenuItem
                 {
-                    Icon = new SymbolIcon { Symbol = Symbol.Settings }, 
+                    Icon = new SymbolIcon { Symbol = Symbol.Settings },
                     Header = "Einstellungen",
                     Command = new RelayCommand(() => ShowSettings(serviceProvider))
                 },
@@ -38,12 +38,12 @@ public static class WindowsTray
             }
         };
     }
-    
+
     private static void ShowSettings(IServiceProvider serviceProvider)
     {
         var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
-        
+
         var app = viewModelFactory.CreateSettingsViewModel();
         dialogService.ShowDialog(app);
     }
@@ -52,7 +52,7 @@ public static class WindowsTray
     {
         var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
-        
+
         var app = viewModelFactory.CreateAboutViewModel();
         dialogService.ShowDialog(app);
     }

@@ -4,9 +4,9 @@ namespace ChatPrisma.Options;
 
 public class OpenAIOptions
 {
-    [Required] 
+    [Required]
     public string Model { get; set; } = default!;
 
-    [Required] 
+    [Required]
     public string ApiKey { get; set; } = default!;
 }

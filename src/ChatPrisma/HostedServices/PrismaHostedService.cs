@@ -8,7 +8,7 @@ namespace ChatPrisma.HostedServices;
 
 public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor textExtractor, IDialogService dialogService, IViewModelFactory viewModelFactory) : IHostedService
 {
-    public  Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         keyboardHooks.CombinationPressed += this.KeyboardHooksOnCombinationPressed;
         return Task.CompletedTask;
@@ -20,14 +20,14 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
         return Task.CompletedTask;
     }
 
-    private bool _alreadyShowing = false;
-    
+    private bool _alreadyShowing;
+
     private async void KeyboardHooksOnCombinationPressed(object? sender, EventArgs e)
     {
         // Only allow one text to be enhanced at a time
         if (this._alreadyShowing)
             return;
-        
+
         var text = await textExtractor.GetCurrentTextAsync();
         if (text is null)
             return;

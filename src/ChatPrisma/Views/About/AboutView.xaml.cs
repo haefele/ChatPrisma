@@ -12,20 +12,20 @@ public partial class AboutView
     {
         Process.Start(new ProcessStartInfo("mailto:" + this.ViewModel.ContactEmailAddress) { UseShellExecute = true });
     }
-    
+
     private void ThirdPartyLibrary_HomepageHyperlink_OnClick(object sender, RoutedEventArgs e)
     {
         var hyperlink = (Hyperlink)sender;
         var thirdPartyLibrary = (ThirdPartyLibrary)hyperlink.DataContext;
-        
-        Process.Start(new ProcessStartInfo(thirdPartyLibrary.HomepageUrl) { UseShellExecute = true });
+
+        Process.Start(new ProcessStartInfo(thirdPartyLibrary.HomepageUrl.ToString()) { UseShellExecute = true });
     }
 
     private void ThirdPartyLibrary_LicenseHyperlink_OnClick(object sender, RoutedEventArgs e)
     {
         var hyperlink = (Hyperlink)sender;
         var thirdPartyLibrary = (ThirdPartyLibrary)hyperlink.DataContext;
-        
-        Process.Start(new ProcessStartInfo(thirdPartyLibrary.LicenseUrl) { UseShellExecute = true });
+
+        Process.Start(new ProcessStartInfo(thirdPartyLibrary.LicenseUrl.ToString()) { UseShellExecute = true });
     }
 }

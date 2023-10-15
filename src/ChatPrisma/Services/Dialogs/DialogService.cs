@@ -37,10 +37,10 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
 
         if (viewModel is ICloseWindow closeWindow)
         {
-            closeWindow.Close += dialogResult =>
+            closeWindow.Close += (_, e) =>
             {
                 // This automatically closes the window
-                window.DialogResult = dialogResult;
+                window.DialogResult = e.DialogResult;
             };
         }
 
@@ -48,13 +48,13 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
         {
             configureWindow.Configure(window);
         }
-        
+
         return window.ShowDialog();
     }
 
     private Type? TryResolveViewType(object viewModel)
     {
-        var viewTypeFullName = viewModel.GetType().FullName?.Replace("ViewModel", "View");
+        var viewTypeFullName = viewModel.GetType().FullName?.Replace("ViewModel", "View", StringComparison.OrdinalIgnoreCase);
         return viewModel.GetType().Assembly.GetType(viewTypeFullName ?? string.Empty);
     }
 
