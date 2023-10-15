@@ -1,32 +1,29 @@
-﻿using System.Windows;
+﻿using ChatPrisma.Options;
+using ChatPrisma.Services.Dialogs;
+using ChatPrisma.Services.ViewModels;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Onova;
 
 namespace ChatPrisma.HostedServices;
 
-public class UpdaterHostedService(IUpdateManager updateManager, Application app, IHostEnvironment hostEnvironment) : BackgroundService
+public class UpdaterHostedService(IUpdateManager updateManager, IViewModelFactory viewModelFactory, IDialogService dialogService, IOptionsMonitor<UpdaterOptions> updaterOptions) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (hostEnvironment.IsProduction() is false)
-            return;
-
         while (stoppingToken.IsCancellationRequested is false)
         {
-            var result = await updateManager.CheckForUpdatesAsync(stoppingToken);
-            if (result is { CanUpdate: true, LastVersion: not null })
+            if (updaterOptions.CurrentValue.CheckForUpdatesInBackground)
             {
-                var updateResult = MessageBox.Show($"Update available {result.LastVersion.ToString(3)}!, Wanna update now?", "Title", MessageBoxButton.YesNo);
-                if (updateResult == MessageBoxResult.Yes)
+                var result = await updateManager.CheckForUpdatesAsync(stoppingToken);
+                if (result is { CanUpdate: true, LastVersion: not null })
                 {
-                    await updateManager.PrepareUpdateAsync(result.LastVersion, cancellationToken: stoppingToken);
-                    updateManager.LaunchUpdater(result.LastVersion);
-
-                    app.Shutdown();
+                    var viewModel = viewModelFactory.CreateUpdateViewModel(result);
+                    await dialogService.ShowDialog(viewModel);
                 }
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(updaterOptions.CurrentValue.MinutesBetweenUpdateChecks), stoppingToken);
         }
     }
 }

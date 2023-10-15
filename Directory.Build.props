@@ -3,6 +3,7 @@
     <PropertyGroup Label="Default-Properties">
         <DebugType>embedded</DebugType>
         <UseArtifactsOutput>true</UseArtifactsOutput>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Label="Code-Style">

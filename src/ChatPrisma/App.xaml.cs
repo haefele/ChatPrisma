@@ -117,6 +117,7 @@ public partial class App : ISingleInstance
                     o.GitHubRepository = "ChatPrisma";
                     o.GitHubReleaseAssetName = "App.zip";
                 })
+                .Bind(context.Configuration.GetSection("Updater"))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 

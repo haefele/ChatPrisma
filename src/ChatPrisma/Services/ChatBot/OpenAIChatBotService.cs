@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Azure.AI.OpenAI;
 using ChatPrisma.Options;
 using Microsoft.Extensions.Logging;
@@ -6,9 +6,9 @@ using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Services.ChatBot;
 
-public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig, ILogger<OpenAIChatBotService> logger) : IChatBotService
+public class OpenAIChatBotService(IOptionsMonitor<OpenAIOptions> openAiConfig, ILogger<OpenAIChatBotService> logger) : IChatBotService
 {
-    private readonly OpenAIClient _client = new(openAiConfig.Value.ApiKey ?? throw new PrismaException("OpenAI API Key is missing"));
+    private readonly OpenAIClient _client = new(openAiConfig.CurrentValue.ApiKey ?? throw new PrismaException("OpenAI API Key is missing"));
 
     public async IAsyncEnumerable<string> GetResponse(List<PrismaChatMessage> messages, [EnumeratorCancellation] CancellationToken token = default)
     {
@@ -18,9 +18,9 @@ public class OpenAIChatBotService(IOptions<OpenAIOptions> openAiConfig, ILogger<
             chatCompletionsOptions.Messages.Add(this.ConvertChatMessage(message));
         }
 
-        logger.LogInformation("Calling ChatGPT model {Model}", openAiConfig.Value.Model);
+        logger.LogInformation("Calling ChatGPT model {Model}", openAiConfig.CurrentValue.Model);
 
-        var response = await this._client.GetChatCompletionsStreamingAsync(openAiConfig.Value.Model, chatCompletionsOptions, token);
+        var response = await this._client.GetChatCompletionsStreamingAsync(openAiConfig.CurrentValue.Model, chatCompletionsOptions, token);
 
         using var completions = response.Value;
 

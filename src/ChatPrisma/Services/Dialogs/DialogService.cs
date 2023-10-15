@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Services.Dialogs;
 
-public class DialogService(IServiceProvider serviceProvider, IOptions<ApplicationOptions> applicationOptions) : IDialogService
+public class DialogService(IServiceProvider serviceProvider, IOptionsMonitor<ApplicationOptions> applicationOptions) : IDialogService
 {
     public async Task<bool?> ShowDialog(object viewModel)
     {
@@ -29,7 +29,7 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
         {
             Path = new PropertyPath(Attached.WindowTitleProperty),
             Source = view,
-            FallbackValue = applicationOptions.Value.ApplicationName,
+            FallbackValue = applicationOptions.CurrentValue.ApplicationName,
         });
 
         if (viewModel is ICloseWindow closeWindow)

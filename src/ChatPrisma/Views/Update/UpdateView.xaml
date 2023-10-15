@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="ChatPrisma.Views.Update.UpdateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ChatPrisma.Views.Update"
+             xmlns:dxmvvm="clr-namespace:DevExpress.Mvvm.UI;assembly=DevExpress.Mvvm.UI"
+             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             
+             d:DesignWidth="800"
+             d:DesignHeight="450" 
+             d:DataContext="{d:DesignInstance local:UpdateViewModel}">
+    <UserControl.Resources>
+        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <dxmvvm:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Inverse="True" />
+    </UserControl.Resources>
+    <Grid>
+        <GroupBox Header="Update verfügbar!" 
+                  Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel>
+                <TextBlock>
+                    <Run Text="Ein Update für "/><Run Text="{Binding ApplicationName}" /><Run Text=" steht zur verfügung!" /><LineBreak />
+                    <LineBreak />
+                    <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" /><LineBreak />
+                    <Bold><Run Text="Neue Version: " /></Bold><Run Text="{Binding UpdateVersion}" /><LineBreak />
+                </TextBlock>
+                <Button Content="Herunterladen und installieren" 
+                        Command="{Binding DownloadAndInstallUpdateCommand}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Kein Update verfügbar!" 
+                  Visibility="{Binding UpdateAvailable, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <TextBlock>
+                <Run Text="Sie verwenden im Moment die aktuellste Version von "/><Run Text="{Binding ApplicationName}" /><Run Text="!" /><LineBreak />
+                <LineBreak />
+                <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" />
+            </TextBlock>
+        </GroupBox>
+    </Grid>
+</UserControl>

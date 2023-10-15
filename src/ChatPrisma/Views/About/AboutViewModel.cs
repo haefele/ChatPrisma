@@ -5,22 +5,22 @@ using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Views.About;
 
-public partial class AboutViewModel(IOptions<ApplicationOptions> options) : ObservableObject
+public partial class AboutViewModel(IOptionsMonitor<ApplicationOptions> options) : ObservableObject
 {
     [ObservableProperty]
-    private string _applicationName = options.Value.ApplicationName;
+    private string _applicationName = options.CurrentValue.ApplicationName;
 
     [ObservableProperty]
-    private string _applicationVersion = options.Value.ApplicationVersion;
+    private string _applicationVersion = options.CurrentValue.ApplicationVersion;
 
     [ObservableProperty]
-    private string _commitId = options.Value.CommitId;
+    private string _commitId = options.CurrentValue.CommitId;
 
     [ObservableProperty]
-    private string _contactName = options.Value.ContactName;
+    private string _contactName = options.CurrentValue.ContactName;
 
     [ObservableProperty]
-    private string _contactEmailAddress = options.Value.ContactEmailAddress;
+    private string _contactEmailAddress = options.CurrentValue.ContactEmailAddress;
 
     [ObservableProperty]
     private ObservableCollection<ThirdPartyLibrary> _thirdPartyLibraries = new()
@@ -36,6 +36,7 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
         new ThirdPartyLibrary("DevExpress.Mvvm",                      new("https://github.com/DevExpress/DevExpress.Mvvm.Free"),                           "MIT",          new Uri("https://github.com/DevExpress/DevExpress.Mvvm.Free/blob/main/LICENSE")),
         new ThirdPartyLibrary("Nerdbank.GitVersioning",               new("https://github.com/dotnet/Nerdbank.GitVersioning"),                             "MIT",          new Uri("https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/LICENSE")),
         new ThirdPartyLibrary("SingleInstanceCore",                   new("https://github.com/soheilkd/SingleInstanceCore"),                               "MIT",          new Uri("https://github.com/soheilkd/SingleInstanceCore/blob/master/LICENSE")),
+        new ThirdPartyLibrary("Onova",                                new("https://github.com/Tyrrrz/Onova"),                                              "MIT",          new Uri("https://github.com/Tyrrrz/Onova/blob/master/License.txt")),
     };
 }
 
