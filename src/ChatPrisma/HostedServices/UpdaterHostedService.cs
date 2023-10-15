@@ -4,26 +4,26 @@ using Onova;
 
 namespace ChatPrisma.HostedServices;
 
-public class UpdaterHostedService(IUpdateManager updateManager, Application app) : IHostedService
+public class UpdaterHostedService(IUpdateManager updateManager, Application app) : BackgroundService
 {
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var result = await updateManager.CheckForUpdatesAsync(cancellationToken);
-        if (result is { CanUpdate: true, LastVersion: not null })
+        while (stoppingToken.IsCancellationRequested is false)
         {
-            await updateManager.PrepareUpdateAsync(result.LastVersion, cancellationToken: cancellationToken);
-
-            var updateResult = MessageBox.Show("Update available!, Wanna update now?", "Title", MessageBoxButton.YesNo);
-            if (updateResult == MessageBoxResult.Yes)
+            var result = await updateManager.CheckForUpdatesAsync(stoppingToken);
+            if (result is { CanUpdate: true, LastVersion: not null })
             {
-                updateManager.LaunchUpdater(result.LastVersion);
-                app.Shutdown();
-            }
-        }
-    }
+                var updateResult = MessageBox.Show($"Update available {result.LastVersion}!, Wanna update now?", "Title", MessageBoxButton.YesNo);
+                if (updateResult == MessageBoxResult.Yes)
+                {
+                    await updateManager.PrepareUpdateAsync(result.LastVersion, cancellationToken: stoppingToken);
+                    updateManager.LaunchUpdater(result.LastVersion);
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
+                    app.Shutdown();
+                }
+            }
+
+            await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken);
+        }
     }
 }
