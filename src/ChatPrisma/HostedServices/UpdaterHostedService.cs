@@ -4,16 +4,19 @@ using Onova;
 
 namespace ChatPrisma.HostedServices;
 
-public class UpdaterHostedService(IUpdateManager updateManager, Application app) : BackgroundService
+public class UpdaterHostedService(IUpdateManager updateManager, Application app, IHostEnvironment hostEnvironment) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        if (hostEnvironment.IsProduction() is false)
+            return;
+
         while (stoppingToken.IsCancellationRequested is false)
         {
             var result = await updateManager.CheckForUpdatesAsync(stoppingToken);
             if (result is { CanUpdate: true, LastVersion: not null })
             {
-                var updateResult = MessageBox.Show($"Update available {result.LastVersion}!, Wanna update now?", "Title", MessageBoxButton.YesNo);
+                var updateResult = MessageBox.Show($"Update available {result.LastVersion.ToString(3)}!, Wanna update now?", "Title", MessageBoxButton.YesNo);
                 if (updateResult == MessageBoxResult.Yes)
                 {
                     await updateManager.PrepareUpdateAsync(result.LastVersion, cancellationToken: stoppingToken);
