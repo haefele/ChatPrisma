@@ -23,7 +23,14 @@
                     <TextBlock Text="{Binding ApplicationName}" />
                     <TextBlock>
                         <Run Text="Version" />
-                        <Run Text="{Binding ApplicationVersion}" />
+                        <Run Text="{Binding ApplicationVersion}">
+                            <Run.ToolTip>
+                                <TextBlock>
+                                    <Run Text="Commit-ID:" />
+                                    <Run Text="{Binding CommitId}" />
+                                </TextBlock>
+                            </Run.ToolTip>
+                        </Run>
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

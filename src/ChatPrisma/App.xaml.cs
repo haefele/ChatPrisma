@@ -88,7 +88,8 @@ public partial class App
                 .Configure(o =>
                 {
                     o.ApplicationName = "Chat Prisma";
-                    o.ApplicationVersion = ThisAssembly.AssemblyInformationalVersion;
+                    o.ApplicationVersion = ThisAssembly.AssemblyFileVersion;
+                    o.CommitId = ThisAssembly.GitCommitId;
                     o.ContactName = "Daniel Häfele";
                     o.ContactEmailAddress = "haefele@xemio.net";
                 })
