@@ -31,6 +31,12 @@ public static class WindowsTray
                 },
                 new MenuItem
                 {
+                    Icon = new SymbolIcon { Symbol = Symbol.ArrowCircleUp },
+                    Header = "Nach Updates suchen",
+                    Command = new AsyncRelayCommand(() => ShowUpdates(serviceProvider))
+                },
+                new MenuItem
+                {
                     Icon = new SymbolIcon { Symbol = Symbol.Info },
                     Header = "Über",
                     Command = new AsyncRelayCommand(() => ShowAbout(serviceProvider))
@@ -45,6 +51,15 @@ public static class WindowsTray
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
 
         var app = viewModelFactory.CreateSettingsViewModel();
+        await dialogService.ShowDialog(app);
+    }
+
+    private static async Task ShowUpdates(IServiceProvider serviceProvider)
+    {
+        var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
+        var dialogService = serviceProvider.GetRequiredService<IDialogService>();
+
+        var app = viewModelFactory.CreateUpdateViewModel();
         await dialogService.ShowDialog(app);
     }
 

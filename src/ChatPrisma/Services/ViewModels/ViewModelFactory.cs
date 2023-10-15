@@ -1,7 +1,9 @@
-using ChatPrisma.Views.About;
+﻿using ChatPrisma.Views.About;
 using ChatPrisma.Views.Settings;
 using ChatPrisma.Views.TextEnhancement;
+using ChatPrisma.Views.Update;
 using Microsoft.Extensions.DependencyInjection;
+using Onova.Models;
 
 namespace ChatPrisma.Services.ViewModels;
 
@@ -12,4 +14,8 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : IViewModelFact
     public SettingsViewModel CreateSettingsViewModel() => ActivatorUtilities.CreateInstance<SettingsViewModel>(serviceProvider);
 
     public TextEnhancementViewModel CreateTextEnhancementViewModel(string text) => ActivatorUtilities.CreateInstance<TextEnhancementViewModel>(serviceProvider, text);
+
+    public UpdateViewModel CreateUpdateViewModel(CheckForUpdatesResult? updatesResult = null) => updatesResult is null
+        ? ActivatorUtilities.CreateInstance<UpdateViewModel>(serviceProvider)
+        : ActivatorUtilities.CreateInstance<UpdateViewModel>(serviceProvider, updatesResult);
 }
