@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution 
 		Directory.Build.props = Directory.Build.props
 		.editorconfig = .editorconfig
 		version.json = version.json
+		global.json = global.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatPrisma", "src\ChatPrisma\ChatPrisma.csproj", "{B40E9012-85A0-47D2-A189-E8644831A4EC}"
