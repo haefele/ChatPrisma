@@ -34,19 +34,19 @@ jobs:
         $outputPath = & dotnet publish "./src/ChatPrisma/" --getProperty:PublishDir
         cd $outputPath
         ren "ChatPrisma.exe" "Chat Prisma.exe"
-        Compress-Archive -Path "$outputPath*" -DestinationPath "$outputPath/Chat Prisma.zip"
+        Compress-Archive -Path "$outputPath*" -DestinationPath "$outputPath/App.zip"
         echo "output_path=$outputPath" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: App
-        path: "${{ env.output_path }}/Chat Prisma.zip"
+        path: "${{ env.output_path }}/App.zip"
         if-no-files-found: error
 
     - name: Create Release
       if: github.ref == 'refs/heads/main'
       uses: ncipollo/release-action@v1.13.0
       with:
-        artifacts: "${{ env.output_path }}/Chat Prisma.zip"
-        tag: "v${{ env.GitBuildVersion }}"
+        artifacts: "${{ env.output_path }}/App.zip"
+        tag: "v${{ env.GitBuildVersionSimple }}"

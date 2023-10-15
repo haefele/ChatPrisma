@@ -88,7 +88,7 @@ public partial class App
                 .Configure(o =>
                 {
                     o.ApplicationName = "Chat Prisma";
-                    o.ApplicationVersion = ThisAssembly.AssemblyFileVersion;
+                    o.ApplicationVersion = Version.Parse(ThisAssembly.AssemblyVersion).ToString(3); // Remove the last 0 from the version number
                     o.CommitId = ThisAssembly.GitCommitId;
                     o.ContactName = "Daniel Häfele";
                     o.ContactEmailAddress = "haefele@xemio.net";
@@ -104,8 +104,8 @@ public partial class App
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IUpdateManager>(new UpdateManager(
-                new AssemblyMetadata("Chat Prisma", Version.Parse(ThisAssembly.AssemblyFileVersion), Environment.ProcessPath!),
-                new GithubPackageResolver("haefele", "ChatPrisma", "Chat.Prisma.zip"),
+                new AssemblyMetadata("Chat Prisma", Version.Parse(ThisAssembly.AssemblyVersion), Environment.ProcessPath!),
+                new GithubPackageResolver("haefele", "ChatPrisma", "App.zip"),
                 new ZipPackageExtractor()));
 
             // Hosted Services
