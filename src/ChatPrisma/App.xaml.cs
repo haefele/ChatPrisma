@@ -139,6 +139,7 @@ public partial class App : ISingleInstance
             });
             services.AddSingleton<IPackageExtractor, ZipPackageExtractor>();
             services.AddSingleton<IUpdateManager, UpdateManager>();
+            services.AddSingleton<IAutoStartService, RegistryAutoStartService>();
 
             // Hosted Services
             services.AddHostedService<StartKeyboardHooksHostedService>();

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.ViewModels;
@@ -12,9 +12,9 @@ namespace ChatPrisma;
 
 public static class WindowsTray
 {
-    public static void HandleDoubleClick(IServiceProvider serviceProvider)
+    public static async void HandleDoubleClick(IServiceProvider serviceProvider)
     {
-        ShowAbout(serviceProvider);
+        await ShowAbout(serviceProvider);
     }
 
     public static ContextMenu CreateContextMenu(IServiceProvider serviceProvider)
@@ -27,33 +27,33 @@ public static class WindowsTray
                 {
                     Icon = new SymbolIcon { Symbol = Symbol.Settings },
                     Header = "Einstellungen",
-                    Command = new RelayCommand(() => ShowSettings(serviceProvider))
+                    Command = new AsyncRelayCommand(() => ShowSettings(serviceProvider))
                 },
                 new MenuItem
                 {
                     Icon = new SymbolIcon { Symbol = Symbol.Info },
                     Header = "Über",
-                    Command = new RelayCommand(() => ShowAbout(serviceProvider))
+                    Command = new AsyncRelayCommand(() => ShowAbout(serviceProvider))
                 }
             }
         };
     }
 
-    private static void ShowSettings(IServiceProvider serviceProvider)
+    private static async Task ShowSettings(IServiceProvider serviceProvider)
     {
         var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
 
         var app = viewModelFactory.CreateSettingsViewModel();
-        dialogService.ShowDialog(app);
+        await dialogService.ShowDialog(app);
     }
 
-    private static void ShowAbout(IServiceProvider serviceProvider)
+    private static async Task ShowAbout(IServiceProvider serviceProvider)
     {
         var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
         var dialogService = serviceProvider.GetRequiredService<IDialogService>();
 
         var app = viewModelFactory.CreateAboutViewModel();
-        dialogService.ShowDialog(app);
+        await dialogService.ShowDialog(app);
     }
 }

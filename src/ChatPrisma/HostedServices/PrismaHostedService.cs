@@ -1,4 +1,4 @@
-using ChatPrisma.Services.Dialogs;
+﻿using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.KeyboardHooks;
 using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.ViewModels;
@@ -36,7 +36,7 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
         try
         {
             var textEnhancementViewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
-            dialogService.ShowDialog(textEnhancementViewModel);
+            await dialogService.ShowDialog(textEnhancementViewModel);
         }
         finally
         {
