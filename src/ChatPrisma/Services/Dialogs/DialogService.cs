@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 using ChatPrisma.Options;
 using ChatPrisma.Themes;
@@ -9,12 +9,9 @@ namespace ChatPrisma.Services.Dialogs;
 
 public class DialogService(IServiceProvider serviceProvider, IOptions<ApplicationOptions> applicationOptions) : IDialogService
 {
-    public bool? ShowDialog(object viewModel)
+    public async Task<bool?> ShowDialog(object viewModel)
     {
-        var viewType = this.TryResolveViewType(viewModel);
-
-        if (viewType is null)
-            throw new PrismaException();
+        var viewType = this.ResolveViewType(viewModel);
 
         var view = (FrameworkElement)ActivatorUtilities.CreateInstance(serviceProvider, viewType);
         this.InvokeInitializeComponents(view);
@@ -49,13 +46,22 @@ public class DialogService(IServiceProvider serviceProvider, IOptions<Applicatio
             configureWindow.Configure(window);
         }
 
+        if (viewModel is IInitialize initialize)
+        {
+            await initialize.InitializeAsync();
+        }
+
         return window.ShowDialog();
     }
 
-    private Type? TryResolveViewType(object viewModel)
+    private Type ResolveViewType(object viewModel)
     {
         var viewTypeFullName = viewModel.GetType().FullName?.Replace("ViewModel", "View", StringComparison.OrdinalIgnoreCase);
-        return viewModel.GetType().Assembly.GetType(viewTypeFullName ?? string.Empty);
+        var viewType = viewModel.GetType().Assembly.GetType(viewTypeFullName ?? string.Empty);
+
+        return viewType is not null
+            ? viewType
+            : throw new PrismaException($"Couldn't find view for view-model {viewModel.GetType().Name}");
     }
 
     private void InvokeInitializeComponents(FrameworkElement view)
