@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChatPrisma.Options;
 
@@ -8,6 +8,8 @@ public class ApplicationOptions
     public string ApplicationName { get; set; } = default!;
     [Required]
     public string ApplicationVersion { get; set; } = default!;
+    [Required]
+    public string CommitId { get; set; } = default!;
     [Required]
     public string ContactName { get; set; } = default!;
     [Required]

@@ -49,4 +49,4 @@ jobs:
       uses: ncipollo/release-action@v1.13.0
       with:
         artifacts: "${{ env.output_path }}/Chat Prisma.zip"
-        tag: "v${{ env.GitBuildVersionSimple }}"
+        tag: "v${{ env.GitBuildVersion }}"

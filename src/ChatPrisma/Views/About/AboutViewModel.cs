@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using ChatPrisma.Options;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
@@ -12,6 +12,9 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
 
     [ObservableProperty]
     private string _applicationVersion = options.Value.ApplicationVersion;
+
+    [ObservableProperty]
+    private string _commitId = options.Value.CommitId;
 
     [ObservableProperty]
     private string _contactName = options.Value.ContactName;
