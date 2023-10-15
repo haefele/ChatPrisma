@@ -17,19 +17,25 @@ using NLog.Extensions.Hosting;
 using Onova;
 using Onova.Models;
 using Onova.Services;
+using SingleInstanceCore;
 
 namespace ChatPrisma;
 
-public partial class App
+public partial class App : ISingleInstance
 {
     private IHost? _host;
-
-    public new static App Current => (App)System.Windows.Application.Current;
 
     private async void App_OnStartup(object sender, StartupEventArgs e)
     {
         try
         {
+            // Allow only a single instance of this application to run at a time
+            if (SingleInstance.InitializeAsFirstInstance(this, "Chat Prisma") is false)
+            {
+                this.Shutdown();
+                return;
+            }
+
             this._host = this.CreateHostBuilder(e.Args).Build();
             await this._host.StartAsync();
 
@@ -54,6 +60,8 @@ public partial class App
         {
             await this._host.StopAsync();
             this._host.Dispose();
+
+            SingleInstance.Cleanup();
         }
     }
 
@@ -61,6 +69,11 @@ public partial class App
     {
         var logger = this._host?.Services.GetRequiredService<ILogger<App>>();
         logger?.LogError(e.Exception, "An unhandled exception occurred.");
+    }
+
+    public void OnInstanceInvoked(string[] args)
+    {
+        // Right now we don't care about startup args
     }
 
     private IHostBuilder CreateHostBuilder(string[] args) => Microsoft.Extensions.Hosting.Host

@@ -35,6 +35,7 @@ public partial class AboutViewModel(IOptions<ApplicationOptions> options) : Obse
         new ThirdPartyLibrary("Emoji.Wpf",                            new("https://github.com/samhocevar/emoji.wpf"),                                      "WTFPL",        new Uri("https://github.com/samhocevar/emoji.wpf/blob/main/COPYING")),
         new ThirdPartyLibrary("DevExpress.Mvvm",                      new("https://github.com/DevExpress/DevExpress.Mvvm.Free"),                           "MIT",          new Uri("https://github.com/DevExpress/DevExpress.Mvvm.Free/blob/main/LICENSE")),
         new ThirdPartyLibrary("Nerdbank.GitVersioning",               new("https://github.com/dotnet/Nerdbank.GitVersioning"),                             "MIT",          new Uri("https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/LICENSE")),
+        new ThirdPartyLibrary("SingleInstanceCore",                   new("https://github.com/soheilkd/SingleInstanceCore"),                               "MIT",          new Uri("https://github.com/soheilkd/SingleInstanceCore/blob/master/LICENSE")),
     };
 }
 
