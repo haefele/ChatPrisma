@@ -2,6 +2,7 @@
 
     <PropertyGroup Label="Default-Properties">
         <DebugType>embedded</DebugType>
+        <UseArtifactsOutput>true</UseArtifactsOutput>
     </PropertyGroup>
 
     <PropertyGroup Label="Code-Style">
@@ -10,6 +11,13 @@
         <AnalysisMode>AllEnabledByDefault</AnalysisMode>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+  
+    <PropertyGroup Label="Publish">
+        <SelfContained>true</SelfContained>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <PublishSingleFile>true</PublishSingleFile>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     </PropertyGroup>
 
 </Project>
