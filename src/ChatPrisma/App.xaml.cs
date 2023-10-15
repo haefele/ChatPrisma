@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Threading;
 using ChatPrisma.Host;
 using ChatPrisma.HostedServices;
@@ -13,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Hosting;
+using Onova;
+using Onova.Models;
+using Onova.Services;
 
 namespace ChatPrisma;
 
@@ -98,10 +102,15 @@ public partial class App
             services.AddSingleton<IChatBotService, OpenAIChatBotService>();
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<IUpdateManager>(new UpdateManager(
+                new AssemblyMetadata("Chat Prisma", Version.Parse(ThisAssembly.AssemblyFileVersion), Environment.ProcessPath!),
+                new GithubPackageResolver("haefele", "ChatPrisma", "Chat.Prisma.zip"),
+                new ZipPackageExtractor()));
 
             // Hosted Services
             services.AddHostedService<StartKeyboardHooksHostedService>();
             services.AddHostedService<PrismaHostedService>();
+            services.AddHostedService<UpdaterHostedService>();
         })
         .UseNLog();
 }
