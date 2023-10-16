@@ -10,6 +10,7 @@ public class ApplicationOptions
     public string ApplicationVersion { get; set; } = default!;
     [Required]
     public string CommitId { get; set; } = default!;
+    public bool IsPublicVersion { get; set; } = false;
     [Required]
     public string ContactName { get; set; } = default!;
     [Required]

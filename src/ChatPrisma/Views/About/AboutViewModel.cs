@@ -23,6 +23,9 @@ public partial class AboutViewModel(IOptionsMonitor<ApplicationOptions> options)
     private string _contactEmailAddress = options.CurrentValue.ContactEmailAddress;
 
     [ObservableProperty]
+    private bool _isPublicVersion = options.CurrentValue.IsPublicVersion;
+
+    [ObservableProperty]
     private ObservableCollection<ThirdPartyLibrary> _thirdPartyLibraries = new()
     {
         new ThirdPartyLibrary(".NET",                                 new("https://dotnet.microsoft.com/"),                                                "MIT",          new Uri("https://github.com/dotnet/core/blob/main/LICENSE.TXT")),
