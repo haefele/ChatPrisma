@@ -121,6 +121,15 @@ public partial class App : ISingleInstance
                 .Bind(context.Configuration.GetSection("Updater"))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
+            services.AddOptions<KeyboardOptions>()
+                .Configure(o =>
+                {
+                    o.Key = "Y";
+                    o.KeyModifiers = "Ctrl+Shift+Alt";
+                })
+                .Bind(context.Configuration.GetSection("Keyboard"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();

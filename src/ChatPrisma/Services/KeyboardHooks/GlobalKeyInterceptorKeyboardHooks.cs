@@ -1,19 +1,23 @@
+﻿using ChatPrisma.Options;
 using GlobalKeyInterceptor;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Shortcut = GlobalKeyInterceptor.Shortcut;
 
 namespace ChatPrisma.Services.KeyboardHooks;
 
-public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger) : IKeyboardHooks, IDisposable
+public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger, IOptions<KeyboardOptions> keyboardOptions) : IKeyboardHooks, IDisposable
 {
     public event EventHandler? CombinationPressed;
 
     private KeyInterceptor? _interceptor;
     public Task StartAsync()
     {
+        var (key, keyModifiers) = ParseKey();
+
         var shortcuts = new[]
         {
-            new Shortcut(Key.Y, KeyModifier.Ctrl | KeyModifier.Shift | KeyModifier.Alt, "CTRL + SHIFT + ALT + Y"),
+            new Shortcut(key, keyModifiers, "Prisma Shortcut"),
         };
 
         this._interceptor = new KeyInterceptor(shortcuts);
@@ -37,6 +41,31 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
     {
         logger.LogTrace("Shortcut pressed: {Shortcut}", e.Shortcut.Name);
         this.CombinationPressed?.Invoke(this, EventArgs.Empty);
+
+        e.IsHandled = true;
+    }
+
+    private (Key, KeyModifier) ParseKey()
+    {
+        try
+        {
+            var key = keyboardOptions.Value.Key;
+            var keyModifiers = keyboardOptions.Value.KeyModifiers;
+
+            var parsedKey = Enum.Parse<Key>(key, ignoreCase: true);
+
+            var parsedKeyModifiers = keyModifiers
+                .Split('+')
+                .Select(f => f.Trim())
+                .Select(f => Enum.Parse<KeyModifier>(f, ignoreCase: true))
+                .Aggregate((x, y) => x | y);
+
+            return (parsedKey, parsedKeyModifiers);
+        }
+        catch (Exception)
+        {
+            throw new PrismaException("Could not parse keyboard shortcut.");
+        }
     }
 
     public void Dispose()
