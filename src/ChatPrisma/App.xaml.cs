@@ -128,7 +128,7 @@ public partial class App : ISingleInstance
                 {
                     o.Key = "Y";
                     o.KeyModifiers = "Ctrl+Shift+Alt";
-                    o.HotkeyDelayInMilliseconds = 200;
+                    o.HotkeyDelayInMilliseconds = 500;
                 })
                 .BindConfiguration("Hotkey")
                 .ValidateDataAnnotations()
