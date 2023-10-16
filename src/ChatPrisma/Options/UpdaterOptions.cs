@@ -11,6 +11,6 @@ public class UpdaterOptions
     [Required]
     public string GitHubReleaseAssetName { get; set; } = default!;
 
-    public bool CheckForUpdatesInBackground { get; set; } = true;
-    public int MinutesBetweenUpdateChecks { get; set; } = 10;
+    public bool CheckForUpdatesInBackground { get; set; }
+    public int MinutesBetweenUpdateChecks { get; set; }
 }

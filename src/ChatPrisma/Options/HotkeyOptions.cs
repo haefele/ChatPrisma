@@ -2,11 +2,12 @@
 
 namespace ChatPrisma.Options
 {
-    public class KeyboardOptions
+    public class HotkeyOptions
     {
         [Required]
         public string Key { get; set; } = default!;
         [Required]
         public string KeyModifiers { get; set; } = default!;
+        public int HotkeyDelayInMilliseconds { get; set; }
     }
 }

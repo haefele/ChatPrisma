@@ -96,7 +96,7 @@ public partial class App : ISingleInstance
                     o.AppShutdownHeader = "Beenden";
                 });
             services.AddOptions<OpenAIOptions>()
-                .Bind(context.Configuration.GetSection("OpenAI"))
+                .BindConfiguration("OpenAI")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             services.AddOptions<ApplicationOptions>()
@@ -117,17 +117,20 @@ public partial class App : ISingleInstance
                     o.GitHubUsername = "haefele";
                     o.GitHubRepository = "ChatPrisma";
                     o.GitHubReleaseAssetName = "App.zip";
+                    o.CheckForUpdatesInBackground = true;
+                    o.MinutesBetweenUpdateChecks = 30;
                 })
-                .Bind(context.Configuration.GetSection("Updater"))
+                .BindConfiguration("Updater")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
-            services.AddOptions<KeyboardOptions>()
+            services.AddOptions<HotkeyOptions>()
                 .Configure(o =>
                 {
                     o.Key = "Y";
                     o.KeyModifiers = "Ctrl+Shift+Alt";
+                    o.HotkeyDelayInMilliseconds = 200;
                 })
-                .Bind(context.Configuration.GetSection("Keyboard"))
+                .BindConfiguration("Hotkey")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
