@@ -31,6 +31,7 @@
                                 </TextBlock>
                             </Run.ToolTip>
                         </Run>
+                        <Run Foreground="Red" Text="{DXBinding 'IsPublicVersion ? `` : `Dev`', Mode=OneWay}" />
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

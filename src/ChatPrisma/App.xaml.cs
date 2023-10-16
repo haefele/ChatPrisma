@@ -105,6 +105,7 @@ public partial class App : ISingleInstance
                     o.ApplicationName = "Chat Prisma";
                     o.ApplicationVersion = Version.Parse(ThisAssembly.AssemblyVersion).ToString(3); // Remove the last 0 from the version number
                     o.CommitId = ThisAssembly.GitCommitId;
+                    o.IsPublicVersion = ThisAssembly.IsPublicRelease;
                     o.ContactName = "Daniel Häfele";
                     o.ContactEmailAddress = "haefele@xemio.net";
                 })
