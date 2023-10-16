@@ -6,7 +6,7 @@ using Shortcut = GlobalKeyInterceptor.Shortcut;
 
 namespace ChatPrisma.Services.KeyboardHooks;
 
-public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger, IOptions<KeyboardOptions> keyboardOptions) : IKeyboardHooks, IDisposable
+public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger, IOptions<HotkeyOptions> keyboardOptions) : IKeyboardHooks, IDisposable
 {
     public event EventHandler? CombinationPressed;
 
@@ -21,7 +21,7 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
         };
 
         this._interceptor = new KeyInterceptor(shortcuts);
-        this._interceptor.ShortcutPressed += OnShortcutPressed;
+        this._interceptor.ShortcutPressed += this.OnShortcutPressed;
 
         logger.LogInformation("Started listening for keyboard shortcuts.");
 
