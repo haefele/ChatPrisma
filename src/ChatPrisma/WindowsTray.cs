@@ -25,22 +25,22 @@ public static class WindowsTray
             {
                 new MenuItem
                 {
-                    Icon = new SymbolIcon { Symbol = Symbol.Settings },
-                    Header = "Einstellungen",
-                    Command = new AsyncRelayCommand(() => ShowSettings(serviceProvider))
+                    Icon = new SymbolIcon { Symbol = Symbol.Info },
+                    Header = "Über",
+                    Command = new AsyncRelayCommand(() => ShowAbout(serviceProvider))
                 },
                 new MenuItem
                 {
-                    Icon = new SymbolIcon { Symbol = Symbol.ArrowCircleUp },
+                    Icon = new SymbolIcon { Symbol = Symbol.DrawerArrowDownload },
                     Header = "Nach Updates suchen",
                     Command = new AsyncRelayCommand(() => ShowUpdates(serviceProvider))
                 },
                 new MenuItem
                 {
-                    Icon = new SymbolIcon { Symbol = Symbol.Info },
-                    Header = "Über",
-                    Command = new AsyncRelayCommand(() => ShowAbout(serviceProvider))
-                }
+                    Icon = new SymbolIcon { Symbol = Symbol.Settings },
+                    Header = "Einstellungen",
+                    Command = new AsyncRelayCommand(() => ShowSettings(serviceProvider)),
+                },
             }
         };
     }
