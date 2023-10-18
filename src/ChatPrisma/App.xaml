@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="/Themes/WindowStyles.xaml" />
                 <ResourceDictionary Source="/Themes/GroupBoxStyles.xaml" />
                 <ResourceDictionary Source="/Themes/HyperlinkStyles.xaml" />
+                <ResourceDictionary Source="/Themes/ToolTipStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
