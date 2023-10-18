@@ -15,4 +15,6 @@ public class ApplicationOptions
     public string ContactName { get; set; } = default!;
     [Required]
     public string ContactEmailAddress { get; set; } = default!;
+    [Required]
+    public string GitHubLink { get; set; } = default!;
 }
