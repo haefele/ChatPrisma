@@ -110,6 +110,7 @@ public partial class App : ISingleInstance
                     o.IsPublicVersion = ThisAssembly.IsPublicRelease;
                     o.ContactName = "Daniel Häfele";
                     o.ContactEmailAddress = "haefele@xemio.net";
+                    o.GitHubLink = "https://github.com/haefele/ChatPrisma";
                 })
                 .ValidateDataAnnotations()
                 .ValidateOnStart();

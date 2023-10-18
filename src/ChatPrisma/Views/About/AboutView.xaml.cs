@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -13,19 +13,8 @@ public partial class AboutView
         Process.Start(new ProcessStartInfo("mailto:" + this.ViewModel.ContactEmailAddress) { UseShellExecute = true });
     }
 
-    private void ThirdPartyLibrary_HomepageHyperlink_OnClick(object sender, RoutedEventArgs e)
+    private void Contact_GitHubHyperlink_OnClick(object sender, RoutedEventArgs e)
     {
-        var hyperlink = (Hyperlink)sender;
-        var thirdPartyLibrary = (ThirdPartyLibrary)hyperlink.DataContext;
-
-        Process.Start(new ProcessStartInfo(thirdPartyLibrary.HomepageUrl.ToString()) { UseShellExecute = true });
-    }
-
-    private void ThirdPartyLibrary_LicenseHyperlink_OnClick(object sender, RoutedEventArgs e)
-    {
-        var hyperlink = (Hyperlink)sender;
-        var thirdPartyLibrary = (ThirdPartyLibrary)hyperlink.DataContext;
-
-        Process.Start(new ProcessStartInfo(thirdPartyLibrary.LicenseUrl.ToString()) { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo(this.ViewModel.GitHubLink) { UseShellExecute = true });
     }
 }
