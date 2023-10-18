@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using ChatPrisma.Options;
@@ -30,7 +30,7 @@ public class TrayIconLifetime(IOptions<TrayIconLifetimeOptions> trayIconLifetime
 
             this._icon.ContextMenu.Items.Add(new MenuItem
             {
-                Icon = new SymbolIcon { Symbol = Symbol.Battery0 },
+                Icon = new SymbolIcon { Symbol = Symbol.Dismiss },
                 Header = trayIconLifetimeOptions.Value.AppShutdownHeader,
                 Command = new RelayCommand(app.Shutdown)
             });
