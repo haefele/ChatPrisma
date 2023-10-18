@@ -21,7 +21,7 @@
     </UserControl.Resources>
     
     <StackPanel>
-        <GroupBox Header="Autostart">
+        <GroupBox Header="Autostart" themes:Attached.Icon="ArrowRepeatAll">
             <Grid>                
                 <StackPanel Visibility="{Binding IsAutoStartActive, Converter={StaticResource BooleanToVisibilityConverter}}"
                             Orientation="Horizontal">
@@ -32,7 +32,7 @@
                 <StackPanel Visibility="{Binding IsAutoStartActive, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                             Orientation="Horizontal">
                     <TextBlock Text="Autostart ist deaktiviert" />
-                    <wpf:SymbolIcon Symbol="ClockDismiss" Foreground="Red" />
+                    <wpf:SymbolIcon Symbol="Dismiss" Foreground="Red" />
                     <Button Content="Aktivieren" Command="{Binding EnableAutoStartCommand}" />
                 </StackPanel>
             </Grid>

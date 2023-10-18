@@ -71,6 +71,8 @@ public partial class App : ISingleInstance
     {
         var logger = this._host?.Services.GetRequiredService<ILogger<App>>();
         logger?.LogError(e.Exception, "An unhandled exception occurred.");
+
+        e.Handled = true;
     }
 
     public void OnInstanceInvoked(string[] args)

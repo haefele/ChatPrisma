@@ -1,0 +1,132 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:converters="clr-namespace:ChatPrisma.Themes.Converters"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+                    xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"                    
+                    xmlns:themes="clr-namespace:ChatPrisma.Themes">
+    <Style TargetType="{x:Type GroupBox}">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <wpf:SymbolIcon Symbol="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(themes:Attached.Icon)}" 
+                                        FontSize="24" 
+                                        Margin="-3, -4, 5, -4" />
+                        <TextBlock Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <ControlTemplate.Resources>
+                        <converters:BorderClipConverter x:Key="BorderClipConverter" />
+                    </ControlTemplate.Resources>
+                    <Border CornerRadius="8">
+                        <Border.Clip>
+                            <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                                <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                                <Binding Path="CornerRadius" RelativeSource="{RelativeSource Self}"/>
+                            </MultiBinding>
+                        </Border.Clip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Animated Border Around -->
+                            <Border x:Name="GroupBoxBorder"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    CornerRadius="8" 
+                                    BorderThickness="2" 
+                                    Margin="-1"
+                                    Background="Black" 
+                                    Opacity="0.7">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1, 0" EndPoint="0, 0">
+                                        <GradientStop Offset="0" Color="#00FFFFFF" />
+                                        <GradientStop Offset="0.3" Color="#80FFFFFF" />
+                                        <GradientStop Offset="0.7" Color="#20FFFFFF" />
+                                        <GradientStop Offset="1" Color="#80FFFFFF" />
+                                        <LinearGradientBrush.Transform>
+                                            <RotateTransform CenterX="{DXBinding '@e(GroupBoxBorder).ActualWidth / 2'}"
+                                                             CenterY="{DXBinding '@e(GroupBoxBorder).ActualHeight / 2'}"
+                                                             Angle="0" />
+                                        </LinearGradientBrush.Transform>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="Border.Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard RepeatBehavior="Forever">
+                                                <DoubleAnimation Storyboard.TargetName="GroupBoxBorder"
+                                                                 Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.Transform).(RotateTransform.Angle)"
+                                                                 From="0.0" 
+                                                                 To="359" 
+                                                                 Duration="00:00:10" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Border.Triggers>
+                            </Border>
+
+                            <!-- Header -->
+                            <ContentPresenter Grid.Row="0" 
+                                              Margin="10, 7, 10, 7"
+                                              Visibility="{DXBinding '@p.Header != null ? $Visibility.Visible : $Visibility.Collapsed'}"
+                                              TextBlock.FontSize="16"
+                                              TextBlock.FontWeight="SemiBold"
+                                              Content="{TemplateBinding Header}" 
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" />
+                            
+                            <!-- Animated Header Line -->
+                            <Border x:Name="InnerBorder"
+                                    Grid.Row="0"
+                                    Visibility="{DXBinding '@p.Header != null ? $Visibility.Visible : $Visibility.Collapsed'}"
+                                    BorderThickness="0, 0, 0, 1" 
+                                    SnapsToDevicePixels="True"
+                                    Opacity="0.5">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="1, 0" EndPoint="0, 0">
+                                        <GradientStop Offset="0" Color="#00FFFFFF" />
+                                        <GradientStop Offset="0.3" Color="#80FFFFFF" />
+                                        <GradientStop Offset="0.7" Color="#20FFFFFF" />
+                                        <GradientStop Offset="1" Color="#80FFFFFF" />
+                                        <LinearGradientBrush.Transform>
+                                            <RotateTransform CenterX="{DXBinding '@e(InnerBorder).ActualWidth / 2'}"
+                                                             CenterY="{DXBinding '(@e(InnerBorder).ActualHeight / 2) + 100'}"
+                                                             Angle="0" />
+                                        </LinearGradientBrush.Transform>
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="Border.Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard RepeatBehavior="Forever">
+                                                <DoubleAnimation Storyboard.TargetName="InnerBorder"
+                                                                 Storyboard.TargetProperty="(Border.BorderBrush).(LinearGradientBrush.Transform).(RotateTransform.Angle)"
+                                                                 From="0.0" 
+                                                                 To="359" 
+                                                                 Duration="00:00:10" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Border.Triggers>
+                            </Border>
+
+                            <!-- Content -->
+                            <ContentPresenter Grid.Row="1"
+                                              Margin="10, 8, 10, 10" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
