@@ -13,12 +13,16 @@
              
              themes:Attached.WindowTitle="Über"
              
-             Width="300">
+             Width="400">
     
-    <StackPanel>
-        <GroupBox Header="About" themes:Attached.Icon="Info">
+    <StackPanel themes:Spacing.Vertical="10">
+        <GroupBox Header="Infos" themes:Attached.Icon="Info">
             <StackPanel Orientation="Horizontal">
-                <Image Source="/Themes/Images/ChatPrisma-Icon.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" />
+                <Image Source="/Themes/Images/AppIcon.ico" 
+                       Margin="0, 0, 7, 0"
+                       Width="32" 
+                       Height="32" 
+                       RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel>
                     <TextBlock Text="{Binding ApplicationName}" />
                     <TextBlock>
@@ -31,20 +35,20 @@
                                 </TextBlock>
                             </Run.ToolTip>
                         </Run>
-                        <Run Foreground="Red" Text="{DXBinding 'IsPublicVersion ? `` : `Dev`', Mode=OneWay}" />
+                        <Run FontWeight="SemiBold" Text="{DXBinding 'IsPublicVersion ? `` : `Dev`', Mode=OneWay}" />
                     </TextBlock>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
         
-        <GroupBox Header="Contact" themes:Attached.Icon="Mail">
+        <GroupBox Header="Kontakt" themes:Attached.Icon="Mail">
             <StackPanel>
                 <TextBlock Text="{Binding ContactName}" />
                 <TextBlock><Hyperlink Click="Contact_EmailHyperlink_OnClick"><Run Text="{Binding ContactEmailAddress}" /></Hyperlink></TextBlock>
             </StackPanel>
         </GroupBox>
         
-        <GroupBox Header="Open Source Libraries" themes:Attached.Icon="Globe">
+        <GroupBox Header="Open Source Bibliotheken" themes:Attached.Icon="Globe">
             <ItemsControl ItemsSource="{Binding ThirdPartyLibraries}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

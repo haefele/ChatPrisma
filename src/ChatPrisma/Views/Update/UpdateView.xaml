@@ -3,40 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatPrisma.Views.Update"
              xmlns:dxmvvm="clr-namespace:DevExpress.Mvvm.UI;assembly=DevExpress.Mvvm.UI"
+             xmlns:themes="clr-namespace:ChatPrisma.Themes"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              
-             d:DesignWidth="800"
-             d:DesignHeight="450" 
-             d:DataContext="{d:DesignInstance local:UpdateViewModel}">
+             d:DataContext="{d:DesignInstance local:UpdateViewModel}"
+                          
+             themes:Attached.WindowTitle="Update">
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <dxmvvm:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Inverse="True" />
     </UserControl.Resources>
     <Grid>
-        <GroupBox Header="Update verfügbar!" 
-                  Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Update Available -->
+        <Image Grid.Column="0" 
+               Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}"
+               Width="200"
+               Margin="0, 0, 10, -10"
+               Source="{svgc:SvgImage Source='pack://application:,,,/ChatPrisma;component/Themes/Images/undraw_happy_news.svg'}" />
+
+        <GroupBox Grid.Column="1" 
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch"
+                  Header="Update verfügbar"
+                  Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  themes:Attached.Icon="DrawerArrowDownload">
             <StackPanel>
-                <TextBlock>
-                    <Run Text="Ein Update für "/><Run Text="{Binding ApplicationName}" /><Run Text=" steht zur verfügung!" /><LineBreak />
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="Ein Update für "/><Run Text="{Binding ApplicationName}" /><Run Text=" steht zur Verfügung!" /><LineBreak />
                     <LineBreak />
                     <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" /><LineBreak />
                     <Bold><Run Text="Neue Version: " /></Bold><Run Text="{Binding UpdateVersion}" /><LineBreak />
                 </TextBlock>
-                <Button Content="Herunterladen und installieren" 
+                <Button Content="Jetzt updaten!" 
                         Command="{Binding DownloadAndInstallUpdateCommand}" />
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Header="Kein Update verfügbar!" 
-                  Visibility="{Binding UpdateAvailable, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-            <TextBlock>
+        <!-- Update not available -->
+        <Image Grid.Column="0" 
+               Visibility="{Binding UpdateAvailable, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+               Source="{svgc:SvgImage Source='pack://application:,,,/ChatPrisma;component/Themes/Images/undraw_empty.svg'}"
+               Width="250"
+               Margin="-20, 0, -20, -10" />
+        
+        <GroupBox Grid.Column="1" 
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch"
+                  Header="Kein Update verfügbar" 
+                  Visibility="{Binding UpdateAvailable, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                  themes:Attached.Icon="DrawerDismiss">
+            <TextBlock TextWrapping="Wrap">
                 <Run Text="Sie verwenden im Moment die aktuellste Version von "/><Run Text="{Binding ApplicationName}" /><Run Text="!" /><LineBreak />
                 <LineBreak />
                 <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" />
             </TextBlock>
         </GroupBox>
+        
     </Grid>
 </UserControl>
