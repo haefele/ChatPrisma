@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 
 namespace ChatPrisma.Themes;
 
@@ -26,5 +26,17 @@ public static class Attached
     public static string GetWindowTitle(DependencyObject element)
     {
         return (string)element.GetValue(WindowTitleProperty);
+    }
+
+    public static readonly DependencyProperty GroupBoxOpacityProperty = DependencyProperty.RegisterAttached(
+        "GroupBoxOpacity", typeof(double), typeof(Attached), new PropertyMetadata(default(double)));
+
+    public static void SetGroupBoxOpacity(DependencyObject element, double value)
+    {
+        element.SetValue(GroupBoxOpacityProperty, value);
+    }
+    public static double GetGroupBoxOpacity(DependencyObject element)
+    {
+        return (double)element.GetValue(GroupBoxOpacityProperty);
     }
 }

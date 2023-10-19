@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:converters="clr-namespace:ChatPrisma.Themes.Converters"
                     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
-                    xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"                    
+                    xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
                     xmlns:themes="clr-namespace:ChatPrisma.Themes">
     <Style TargetType="{x:Type GroupBox}">
         <Setter Property="Foreground" Value="White" />
+        <Setter Property="themes:Attached.GroupBoxOpacity" Value="0.7" />
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -46,7 +47,7 @@
                                     BorderThickness="2" 
                                     Margin="-1"
                                     Background="Black" 
-                                    Opacity="0.7">
+                                    Opacity="{Binding Path=(themes:Attached.GroupBoxOpacity), RelativeSource={RelativeSource TemplatedParent}}">
                                 <Border.BorderBrush>
                                     <LinearGradientBrush StartPoint="1, 0" EndPoint="0, 0">
                                         <GradientStop Offset="0" Color="#00FFFFFF" />
