@@ -22,19 +22,29 @@
     
     <StackPanel>
         <GroupBox Header="Autostart" themes:Attached.Icon="ArrowRepeatAll">
-            <Grid>                
-                <StackPanel Visibility="{Binding IsAutoStartActive, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            Orientation="Horizontal">
-                    <TextBlock Text="Autostart ist aktiviert" />
-                    <wpf:SymbolIcon Symbol="Checkmark" Foreground="Green" />
-                    <Button Content="Deaktivieren" Command="{Binding DisableAutoStartCommand}" />
-                </StackPanel>
-                <StackPanel Visibility="{Binding IsAutoStartActive, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                            Orientation="Horizontal">
-                    <TextBlock Text="Autostart ist deaktiviert" />
-                    <wpf:SymbolIcon Symbol="Dismiss" Foreground="Red" />
-                    <Button Content="Aktivieren" Command="{Binding EnableAutoStartCommand}" />
-                </StackPanel>
+            <Grid>
+                <Grid Visibility="{Binding IsAutoStartActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <wpf:SymbolIcon Grid.Column="0" Symbol="Checkmark" Foreground="#26ED51" />
+                    <TextBlock Grid.Column="1" Text="Autostart ist aktiviert" VerticalAlignment="Center" />
+                    <Button Grid.Column="2" Content="Deaktivieren" Command="{Binding DisableAutoStartCommand}" />
+                </Grid>
+                <Grid Visibility="{Binding IsAutoStartActive, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <wpf:SymbolIcon Grid.Column="0" Symbol="Dismiss" />
+                    <TextBlock Grid.Column="1" Text="Autostart ist deaktiviert" VerticalAlignment="Center" />
+                    <Button Grid.Column="2" Content="Aktivieren" Command="{Binding EnableAutoStartCommand}" />
+                </Grid>
             </Grid>
         </GroupBox>
     </StackPanel>
