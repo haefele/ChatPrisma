@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary x:Class="ChatPrisma.Themes.ContextMenuStyles" 
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:themes="clr-namespace:ChatPrisma.Themes">
-    <!-- Style for ContextMenu -->
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:themes="clr-namespace:ChatPrisma.Themes">
+    
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="Foreground" Value="White"/>
         
@@ -40,7 +41,7 @@
                         </Border>
 
                         <!-- Re-Use GroupBox -->
-                        <GroupBox>
+                        <GroupBox themes:Attached.GroupBoxOpacity="0.5">
                             <StackPanel Margin="-5, -3, -5, -5" IsItemsHost="True"/>
                         </GroupBox>
                     </Grid>
@@ -49,7 +50,6 @@
         </Setter>
     </Style>
 
-    <!-- Style for MenuItem -->
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="Template">
             <Setter.Value>

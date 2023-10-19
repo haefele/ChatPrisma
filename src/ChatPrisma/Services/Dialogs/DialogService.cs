@@ -51,6 +51,9 @@ public class DialogService(IServiceProvider serviceProvider, IOptionsMonitor<App
             await initialize.InitializeAsync();
         }
 
+        // Need an await for the caller to yield
+        await Task.Yield();
+
         return window.ShowDialog();
     }
 
