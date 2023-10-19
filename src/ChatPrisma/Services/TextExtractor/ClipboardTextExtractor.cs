@@ -9,6 +9,17 @@ namespace ChatPrisma.Services.TextExtractor;
 
 public class ClipboardTextExtractor(IOptionsMonitor<HotkeyOptions> hotkeyOptions, ILogger<ClipboardTextExtractor> logger) : ITextExtractor
 {
+    public async Task<string?> GetPreviousTextAsync()
+    {
+        // Send ALT-TAB to switch to the previous window
+        SendKeys.SendWait("%{TAB}");
+
+        // A little bit of mini-delay is needed here, otherwise the text is not copied
+        await Task.Delay(TimeSpan.FromMilliseconds(20));
+
+        return await this.GetCurrentTextAsync();
+    }
+
     public async Task<string?> GetCurrentTextAsync()
     {
         // We gotta wait until no keys are pressed anymore, otherwise CTRL+C will not work
