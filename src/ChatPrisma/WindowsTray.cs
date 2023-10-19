@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using ChatPrisma.Services.Dialogs;
+using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.ViewModels;
 using ChatPrisma.Views.Settings;
 using CommunityToolkit.Mvvm.Input;
@@ -14,7 +15,17 @@ public static class WindowsTray
 {
     public static async void HandleDoubleClick(IServiceProvider serviceProvider)
     {
-        await ShowAbout(serviceProvider);
+        var textExtractor = serviceProvider.GetRequiredService<ITextExtractor>();
+        var text = await textExtractor.GetPreviousTextAsync();
+
+        if (text is null)
+            return;
+
+        var viewModelFactory = serviceProvider.GetRequiredService<IViewModelFactory>();
+        var dialogService = serviceProvider.GetRequiredService<IDialogService>();
+
+        var viewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
+        await dialogService.ShowDialog(viewModel);
     }
 
     public static ContextMenu CreateContextMenu(IServiceProvider serviceProvider)
