@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="/Themes/HyperlinkStyles.xaml" />
                 <ResourceDictionary Source="/Themes/ToolTipStyles.xaml" />
                 <ResourceDictionary Source="/Themes/ContextMenuStyles.xaml" />
+                <ResourceDictionary Source="/Themes/ButtonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
