@@ -14,7 +14,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
   
-    <PropertyGroup Label="Publish">
+    <PropertyGroup Label="Publish" Condition="'$(Configuration)' == 'Release'">
         <SelfContained>true</SelfContained>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <PublishSingleFile>true</PublishSingleFile>
