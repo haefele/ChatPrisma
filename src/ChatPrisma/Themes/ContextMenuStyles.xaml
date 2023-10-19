@@ -55,8 +55,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid>                        
-                        <Border x:Name="MenuItemBorder" CornerRadius="6">
-                            <Grid>
+                        <Border x:Name="MenuItemBorder" CornerRadius="6" BorderThickness="1" Margin="0, -1, 0, -1">
+                            <!-- This fully transparent Background color makes it so IsMouseOver triggers instantly, not just when you hover over the content -->
+                            <Grid Background="#00000000">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -75,6 +76,12 @@
                                     <SolidColorBrush Color="Black" Opacity="0.5" />
                                 </Setter.Value>
                             </Setter>
+                            <Setter TargetName="MenuItemBorder" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#99FFFFFF" Opacity="0.7" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="MenuItemBorder" Property="BorderThickness" Value="1" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="MenuItemBorder" Property="Opacity" Value="0.5"/>
