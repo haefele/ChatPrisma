@@ -39,4 +39,16 @@ public static class Attached
     {
         return (double)element.GetValue(GroupBoxOpacityProperty);
     }
+
+    public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.RegisterAttached(
+        "Placeholder", typeof(string), typeof(Attached), new PropertyMetadata(default(string)));
+
+    public static void SetPlaceholder(DependencyObject element, string value)
+    {
+        element.SetValue(PlaceholderProperty, value);
+    }
+    public static string GetPlaceholder(DependencyObject element)
+    {
+        return (string)element.GetValue(PlaceholderProperty);
+    }
 }
