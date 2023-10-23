@@ -136,6 +136,14 @@ public partial class App : ISingleInstance
                 .BindConfiguration("Hotkey")
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
+            services.AddOptions<TextEnhancementOptions>()
+                .Configure(o =>
+                {
+                    o.TextSize = 12;
+                })
+                .BindConfiguration("TextEnhancement")
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             // Services
             services.AddSingleton<IKeyboardHooks, GlobalKeyInterceptorKeyboardHooks>();

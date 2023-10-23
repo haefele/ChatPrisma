@@ -29,7 +29,7 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="TextScrollViewer">
                 <emoji:TextBlock x:Name="TextTextBlock" 
                                  Text="{Binding CurrentText}"
-                                 FontSize="12"
+                                 FontSize="{Binding TextSize}"
                                  TextWrapping="Wrap" 
                                  SizeChanged="TextTextBlock_OnSizeChanged"/>
             </ScrollViewer>
