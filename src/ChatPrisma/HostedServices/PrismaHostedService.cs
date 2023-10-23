@@ -20,27 +20,13 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
         return Task.CompletedTask;
     }
 
-    private bool _alreadyShowing;
-
     private async void KeyboardHooksOnCombinationPressed(object? sender, EventArgs e)
     {
-        // Only allow one text to be enhanced at a time
-        if (this._alreadyShowing)
-            return;
-
         var text = await textExtractor.GetCurrentTextAsync();
         if (text is null)
             return;
 
-        this._alreadyShowing = true;
-        try
-        {
-            var textEnhancementViewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
-            await dialogService.ShowDialog(textEnhancementViewModel);
-        }
-        finally
-        {
-            this._alreadyShowing = false;
-        }
+        var textEnhancementViewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
+        await dialogService.ShowDialog(textEnhancementViewModel);
     }
 }
