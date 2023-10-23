@@ -1,13 +1,15 @@
 using System.Windows;
+using ChatPrisma.Options;
 using ChatPrisma.Services.ChatBot;
 using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.TextWriter;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Options;
 
 namespace ChatPrisma.Views.TextEnhancement;
 
-public partial class TextEnhancementViewModel(string inputText, IClipboardTextWriter clipboardTextWriter, IChatBotService chatBotService) : ObservableObject, ICloseWindow, IConfigureWindow
+public partial class TextEnhancementViewModel(string inputText, IClipboardTextWriter clipboardTextWriter, IChatBotService chatBotService, IOptionsMonitor<TextEnhancementOptions> textEnhancementOptions) : ObservableObject, ICloseWindow, IConfigureWindow
 {
     private List<PrismaChatMessage> _allMessages = new()
     {
@@ -22,6 +24,9 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
 
     [ObservableProperty]
     private string _instruction = string.Empty;
+
+    [ObservableProperty]
+    private int _textSize = textEnhancementOptions.CurrentValue.TextSize;
 
     public event EventHandler? ApplyInstructionCancelled;
 
