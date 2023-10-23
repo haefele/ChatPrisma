@@ -9,8 +9,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              
-             Width="400"
+             Width="600"
+
              MinHeight="200"
+             MaxHeight="800"
              
              d:DataContext="{d:DesignInstance local:TextEnhancementViewModel}"
              
@@ -24,8 +26,13 @@
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Header="Text" themes:Attached.Icon="TextEditStyle">
-            <emoji:TextBlock Text="{Binding CurrentText}"
-                             TextWrapping="Wrap"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="TextScrollViewer">
+                <emoji:TextBlock x:Name="TextTextBlock" 
+                                 Text="{Binding CurrentText}"
+                                 FontSize="12"
+                                 TextWrapping="Wrap" 
+                                 SizeChanged="TextTextBlock_OnSizeChanged"/>
+            </ScrollViewer>
         </GroupBox>
         
         <GroupBox Grid.Row="1" Header="Änderungen" themes:Attached.Icon="InkingTool">
