@@ -29,7 +29,8 @@ public class ClipboardTextExtractor(IOptionsMonitor<HotkeyOptions> hotkeyOptions
         Clipboard.Clear();
         SendKeys.SendWait("^c");
 
-        var selectedText = Clipboard.GetText();
+        // It can take a while until the text is in the clipboard
+        var selectedText = await this.WaitUntilClipboardTextIsAvailable();
 
         if (string.IsNullOrWhiteSpace(selectedText))
             return null;
@@ -71,5 +72,27 @@ public class ClipboardTextExtractor(IOptionsMonitor<HotkeyOptions> hotkeyOptions
         }
 
         return false;
+    }
+
+    private async Task<string?> WaitUntilClipboardTextIsAvailable()
+    {
+        var task = Task.Delay(TimeSpan.FromMilliseconds(hotkeyOptions.CurrentValue.ClipboardDelayInMilliseconds));
+        var watch = Stopwatch.StartNew();
+
+        // Either wait until the task is completed or the user releases all keys
+        while (task.IsCompleted is false)
+        {
+            var dataObject = Clipboard.GetDataObject();
+            if (dataObject?.GetData(DataFormats.Text) is string text)
+            {
+                logger.LogInformation("Early exit from WaitUntilClipboardIsFilled because we got some text from the clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
+                return text;
+            }
+
+            await Task.Delay(10);
+        }
+
+        logger.LogInformation("Sadly no text available in clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
+        return null;
     }
 }
