@@ -22,6 +22,12 @@ public partial class TextEnhancementView
             // Place the window a bit moved to the top, so it is perfectly centered if we reach this.MaxHeight
             window.Top = Math.Max((currentScreenHeight - this.MaxHeight) / 2, 0);
         }));
+
+        // Ensure window is shown above all other windows
+        window.Activate();
+        window.Topmost = true;
+        window.Topmost = false;
+        window.Focus();
     }
 
     private void TextEnhancementView_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
