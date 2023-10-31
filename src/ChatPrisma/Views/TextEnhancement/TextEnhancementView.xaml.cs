@@ -11,9 +11,13 @@ public partial class TextEnhancementView
     {
         this.InstructionTextBox.Focus();
 
-        // Place window slightly to the top
         var window = Window.GetWindow(this)!;
-        window.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+
+        // Ensure we are scrolled to the bottom
+        window.Dispatcher.BeginInvoke(DispatcherPriority.Render, this.ScrollToBottom);
+
+        // Place window slightly to the top
+        window.Dispatcher.BeginInvoke(DispatcherPriority.Render, () =>
         {
             var helper = new WindowInteropHelper(window);
             var currentScreen = Screen.FromHandle(helper.Handle);
@@ -21,7 +25,7 @@ public partial class TextEnhancementView
 
             // Place the window a bit moved to the top, so it is perfectly centered if we reach this.MaxHeight
             window.Top = Math.Max((currentScreenHeight - this.MaxHeight) / 2, 0);
-        }));
+        });
 
         // Ensure window is shown above all other windows
         window.Activate();
@@ -52,6 +56,11 @@ public partial class TextEnhancementView
     private void TextTextBlock_OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         // Keep the ScrollViewer scrolled to the bottom while the text is generating
+        this.ScrollToBottom();
+    }
+
+    private void ScrollToBottom()
+    {
         this.TextScrollViewer.ScrollToVerticalOffset(this.TextScrollViewer.ExtentHeight);
     }
 }
