@@ -79,7 +79,7 @@ public class ClipboardTextExtractor(IOptionsMonitor<HotkeyOptions> hotkeyOptions
         var task = Task.Delay(TimeSpan.FromMilliseconds(hotkeyOptions.CurrentValue.ClipboardDelayInMilliseconds));
         var watch = Stopwatch.StartNew();
 
-        // Either wait until the task is completed or the user releases all keys
+        // Either wait until the task is completed or we got some text in the clipboard
         while (task.IsCompleted is false)
         {
             var dataObject = Clipboard.GetDataObject();
