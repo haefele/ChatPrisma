@@ -25,7 +25,23 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header="Text" themes:Attached.Icon="TextEditStyle">
+        <GroupBox Grid.Row="0" Header="{Binding}" themes:Attached.Icon="TextEditStyle">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" themes:Spacing.Horizontal="8">
+                        <TextBlock Text="Text" />
+
+                        <Grid IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}">
+                            <themes:Stepper Height="24" 
+                                            Margin="0, -2"
+                                            PreviousCommand="{Binding PreviousVersionCommand}" 
+                                            Value="{Binding CurrentVersion}" 
+                                            NextCommand="{Binding NextVersionCommand}" 
+                                            ToolTip="Die Version des aktuell angezeigten Textes." /> 
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
             <ScrollViewer x:Name="TextScrollViewer"
                           VerticalScrollBarVisibility="Auto"
                           Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
