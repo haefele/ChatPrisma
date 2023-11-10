@@ -3,18 +3,22 @@
 
     <Style TargetType="Button">
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="Height" Value="30" />
+        <Setter Property="Padding" Value="5, 6, 5, 6" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Name="border" CornerRadius="6" BorderBrush="#4D4D4D" BorderThickness="1">
                         <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1.5">
-                                <GradientStop Color="#802F66" Offset="0.0"/>
-                                <GradientStop Color="#26234D" Offset="1.0"/>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#333333" Offset="0.0"/>
+                                <GradientStop Color="#262626" Offset="1.0"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}" />
+                            
                             <Border Name="PressedOverlay" CornerRadius="6" Visibility="Hidden">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="1">
@@ -23,19 +27,20 @@
                                     </LinearGradientBrush>
                                 </Border.Background>
                             </Border>
-
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="#99FFFFFF" />
+                                    <SolidColorBrush Color="#60FFFFFF" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="PressedOverlay" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PressedOverlay" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
