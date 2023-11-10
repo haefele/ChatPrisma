@@ -183,6 +183,7 @@
 
                                 <Button Grid.Column="2"
                                         Width="40"
+                                        Height="32"
                                         Click="CloseButton_Click"
                                         WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Button.Template>
