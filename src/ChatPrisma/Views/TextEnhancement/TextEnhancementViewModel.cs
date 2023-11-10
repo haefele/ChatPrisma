@@ -13,7 +13,8 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
 {
     private List<PrismaChatMessage> _allMessages = new()
     {
-        new PrismaChatMessage(PrismaChatRole.System, ChatPrompts.System(inputText))
+        new PrismaChatMessage(PrismaChatRole.System, ChatPrompts.System()),
+        new PrismaChatMessage(PrismaChatRole.User, inputText),
     };
 
     [ObservableProperty]
@@ -28,6 +29,42 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
     [ObservableProperty]
     private int _textSize = textEnhancementOptions.CurrentValue.TextSize;
 
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(PreviousVersionCommand))]
+    [NotifyCanExecuteChangedFor(nameof(NextVersionCommand))]
+    private int _currentVersion = 1;
+
+    partial void OnCurrentVersionChanged(int value)
+    {
+        this.CurrentText = this._allMessages[(value * 2) - 1].Content;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanPreviousVersion))]
+    private void PreviousVersion()
+    {
+        if (this.ApplyInstructionCommand.IsRunning)
+            return;
+
+        this.CurrentVersion--;
+    }
+    private bool CanPreviousVersion()
+    {
+        return this.CurrentVersion > 1;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanNextVersion))]
+    private void NextVersion()
+    {
+        if (this.ApplyInstructionCommand.IsRunning)
+            return;
+
+        this.CurrentVersion++;
+    }
+    private bool CanNextVersion()
+    {
+        return this.CurrentVersion < (this._allMessages.Count / 2);
+    }
+
     public event EventHandler? ApplyInstructionCancelled;
 
     [RelayCommand(IncludeCancelCommand = true)]
@@ -36,6 +73,8 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
         // Remember those, if the user cancels the operation we can reset the UI
         var previousInstruction = this.Instruction;
         var previousText = this.CurrentText;
+        var removedMessages = this._allMessages.Skip(this.CurrentVersion * 2).ToList();
+        this._allMessages.RemoveRange(this.CurrentVersion * 2, removedMessages.Count);
 
         try
         {
@@ -51,6 +90,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
             }
 
             this._allMessages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, this.CurrentText));
+            this.CurrentVersion++;
         }
         catch (OperationCanceledException)
         {
@@ -58,6 +98,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
             this._allMessages.Remove(this._allMessages[^1]);
             this.Instruction = previousInstruction;
             this.CurrentText = previousText;
+            this._allMessages.AddRange(removedMessages);
 
             this.ApplyInstructionCancelled?.Invoke(this, EventArgs.Empty);
         }

@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="ChatPrisma.Themes.Stepper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ChatPrisma.Themes"
+
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <GroupBox VerticalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal" Margin="-8, -6, -8, -8"> <!-- Sneak closely up to the GroupBox border -->
+            <Button Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Stepper}}, Path=PreviousCommand}"
+                    Content="-" 
+                    Width="20" 
+                    VerticalAlignment="Stretch">
+                <Button.Padding>0, -4, 0, 0</Button.Padding> <!-- Fix placement of the content -->
+            </Button>
+            
+            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Stepper}}, Path=Value, Mode=OneWay}" 
+                       Margin="8, 0, 8, 0" 
+                       VerticalAlignment="Center" />
+            
+            <Button Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Stepper}}, Path=NextCommand}"
+                    Content="+" 
+                    Width="20" 
+                    VerticalAlignment="Stretch">
+                <Button.Padding>0, -4, 0, 0</Button.Padding> <!-- Fix placement of the content -->
+            </Button>
+        </StackPanel>
+    </GroupBox>
+</UserControl>
