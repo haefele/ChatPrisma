@@ -26,12 +26,18 @@
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Header="Text" themes:Attached.Icon="TextEditStyle">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="TextScrollViewer">
-                <emoji:TextBlock x:Name="TextTextBlock" 
+            <ScrollViewer x:Name="TextScrollViewer"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
+                <emoji:TextBlock x:Name="TextTextBlock"
                                  Text="{Binding CurrentText}"
                                  FontSize="{Binding TextSize}"
                                  TextWrapping="Wrap" 
-                                 SizeChanged="TextTextBlock_OnSizeChanged"/>
+                                 SizeChanged="TextTextBlock_OnSizeChanged">
+                    <emoji:TextBlock.Margin>
+                        <Thickness>0, 8, 0, 10</Thickness> <!-- Give it some inner margin back (same values as GroupBox inner margin) -->
+                    </emoji:TextBlock.Margin>
+                </emoji:TextBlock>
             </ScrollViewer>
         </GroupBox>
         
