@@ -13,7 +13,7 @@ public partial class TextEnhancementViewModel(string inputText, IClipboardTextWr
 {
     private List<PrismaChatMessage> _allMessages = new()
     {
-        new PrismaChatMessage(PrismaChatRole.System, ChatPrompts.System()),
+        new PrismaChatMessage(PrismaChatRole.System, ChatPrompts.System(textEnhancementOptions.CurrentValue.CustomInstructions)),
         new PrismaChatMessage(PrismaChatRole.User, inputText),
     };
 
