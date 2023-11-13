@@ -36,8 +36,19 @@
                                             Margin="0, -2"
                                             PreviousCommand="{Binding PreviousVersionCommand}" 
                                             Value="{Binding CurrentVersion}" 
-                                            NextCommand="{Binding NextVersionCommand}" 
-                                            ToolTip="Die Version des aktuell angezeigten Textes." /> 
+                                            NextCommand="{Binding NextVersionCommand}">
+                                <themes:Stepper.ToolTip>
+                                    <TextBlock>
+                                        <Run Text="Die Version des aktuell angezeigten Textes." />
+                                        <LineBreak /><LineBreak />
+                                        <Bold>Vorherige Version:</Bold><LineBreak />
+                                        <Run Text="ALT+Links" />
+                                        <LineBreak /><LineBreak />
+                                        <Bold>Nächste Version:</Bold><LineBreak />
+                                        <Run Text="ALT+Rechts" />
+                                    </TextBlock>
+                                </themes:Stepper.ToolTip>
+                            </themes:Stepper>
                         </Grid>
                     </StackPanel>
                 </DataTemplate>
@@ -61,11 +72,15 @@
             <Grid>
                 <TextBox x:Name="InstructionTextBox"
                          themes:Attached.Placeholder="Anweisung"
+                         IsReadOnly="{Binding ApplyInstructionCommand.IsRunning}"
                          Text="{Binding Instruction, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding ApplyInstructionCommand}" />
                         <KeyBinding Key="Enter" Modifiers="Control" Command="{Binding AcceptTextCommand}" />
                         <KeyBinding Key="Escape" Command="{Binding ApplyInstructionCancelCommand}" />
+                        
+                        <KeyBinding Key="Left" Modifiers="Alt" Command="{Binding PreviousVersionCommand}" />
+                        <KeyBinding Key="Right" Modifiers="Alt" Command="{Binding NextVersionCommand}" />
                     </TextBox.InputBindings>
                 </TextBox>
             </Grid>
