@@ -10,12 +10,7 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <wpf:SymbolIcon Symbol="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(themes:Attached.Icon)}" 
-                                        FontSize="24" 
-                                        Margin="-3, -4, 5, -4" />
-                        <TextBlock Text="{Binding}" />
-                    </StackPanel>
+                    <TextBlock Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -77,14 +72,27 @@
                             </Border>
 
                             <!-- Header -->
-                            <ContentPresenter Grid.Row="0" 
-                                              Margin="10, 7, 10, 7"
-                                              Visibility="{DXBinding '@p.Header != null ? $Visibility.Visible : $Visibility.Collapsed'}"
-                                              TextBlock.FontSize="16"
-                                              TextBlock.FontWeight="SemiBold"
-                                              Content="{TemplateBinding Header}" 
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                                              ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" />
+                            <Grid Grid.Row="0" 
+                                  Margin="10, 7, 10, 7"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{DXBinding '@p.Header != null ? $Visibility.Visible : $Visibility.Collapsed'}"
+                                  TextBlock.FontSize="16"
+                                  TextBlock.FontWeight="SemiBold">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <wpf:SymbolIcon Grid.Column="0" 
+                                                Symbol="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(themes:Attached.Icon)}" 
+                                                FontSize="24" 
+                                                Margin="-3, -4, 5, -4" />
+
+                                <ContentPresenter Grid.Column="1" 
+                                                  Content="{TemplateBinding Header}" 
+                                                  ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                                  ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" />
+                            </Grid>
                             
                             <!-- Animated Header Line -->
                             <Border x:Name="InnerBorder"

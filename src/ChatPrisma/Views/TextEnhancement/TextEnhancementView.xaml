@@ -28,10 +28,11 @@
         <GroupBox Grid.Row="0" Header="{Binding}" themes:Attached.Icon="TextEditStyle">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" themes:Spacing.Horizontal="8">
+                    <Grid>
                         <TextBlock Text="Text" />
 
-                        <Grid IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}">
+                        <Grid IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}"
+                              HorizontalAlignment="Right">
                             <themes:Stepper Height="24" 
                                             Margin="0, -2"
                                             PreviousCommand="{Binding PreviousVersionCommand}" 
@@ -50,7 +51,7 @@
                                 </themes:Stepper.ToolTip>
                             </themes:Stepper>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
             <ScrollViewer x:Name="TextScrollViewer"
