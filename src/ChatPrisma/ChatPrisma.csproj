@@ -30,6 +30,19 @@
     <ItemGroup Label="Versioning">
         <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />
     </ItemGroup>
+    <Target Name="AppManifestUpdate" 
+            DependsOnTargets="GetBuildVersion"
+            BeforeTargets="CoreCompile" 
+            Condition="'$(Configuration)' == 'Release'">
+      <PropertyGroup>
+        <AppManifestContents>$([System.IO.File]::ReadAllText('app.manifest'))</AppManifestContents>
+        <UpdatedAppManifestContents>$([System.Text.RegularExpressions.Regex]::Replace($(AppManifestContents), '\d+\.\d+\.\d+\.\d+', $(AssemblyVersion)))</UpdatedAppManifestContents>
+      </PropertyGroup>
+      
+      <WriteLinesToFile File="app.manifest"
+                        Lines="$(UpdatedAppManifestContents)"
+                        Overwrite="true" />
+    </Target>
 
     <ItemGroup Label="Config">
         <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
@@ -41,10 +54,6 @@
     
     <ItemGroup Label="Images">
       <Resource Include="Themes\Images\*" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <None Remove="app.manifest" />
     </ItemGroup>
 
 </Project>
