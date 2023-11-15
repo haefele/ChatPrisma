@@ -2,8 +2,10 @@
 
 namespace ChatPrisma.Options;
 
-public class UpdaterOptions
+public record UpdaterOptions
 {
+    public const string Section = "Updater";
+
     [Required]
     public string GitHubUsername { get; set; } = default!;
     [Required]

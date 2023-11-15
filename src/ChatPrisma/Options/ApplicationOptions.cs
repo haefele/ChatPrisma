@@ -2,7 +2,7 @@
 
 namespace ChatPrisma.Options;
 
-public class ApplicationOptions
+public record ApplicationOptions
 {
     [Required]
     public string ApplicationName { get; set; } = default!;
