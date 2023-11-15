@@ -10,6 +10,7 @@ using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.KeyboardHooks;
 using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.TextWriter;
+using ChatPrisma.Services.UpdateOptions;
 using ChatPrisma.Services.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -166,6 +167,7 @@ public partial class App : ISingleInstance
             services.AddSingleton<IPackageExtractor, ZipPackageExtractor>();
             services.AddSingleton<IUpdateManager, UpdateManager>();
             services.AddSingleton<IAutoStartService, RegistryAutoStartService>();
+            services.AddSingleton<IUpdateOptionsService, UpdateOptionsService>();
 
             // Hosted Services
             services.AddHostedService<StartKeyboardHooksHostedService>();

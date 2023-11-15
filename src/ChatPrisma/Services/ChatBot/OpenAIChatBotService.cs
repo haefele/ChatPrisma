@@ -8,10 +8,21 @@ namespace ChatPrisma.Services.ChatBot;
 
 public class OpenAIChatBotService(IOptionsMonitor<OpenAIOptions> openAiConfig, ILogger<OpenAIChatBotService> logger) : IChatBotService
 {
-    private readonly OpenAIClient _client = new(openAiConfig.CurrentValue.ApiKey ?? throw new PrismaException("OpenAI API Key is missing"));
-
     public async IAsyncEnumerable<string> GetResponse(List<PrismaChatMessage> messages, [EnumeratorCancellation] CancellationToken token = default)
     {
+        var client = this.GetClient();
+        if (client is null)
+        {
+            yield return "Bitte tragen Sie einen OpenAI API-Key in den Einstellungen ein.";
+            yield break;
+        }
+
+        if (string.IsNullOrWhiteSpace(openAiConfig.CurrentValue.Model))
+        {
+            yield return "Bitte tragen Sie ein OpenAI Model in den Einstellungen ein.";
+            yield break;
+        }
+
         var chatCompletionsOptions = new ChatCompletionsOptions();
         foreach (var message in messages)
         {
@@ -20,7 +31,7 @@ public class OpenAIChatBotService(IOptionsMonitor<OpenAIOptions> openAiConfig, I
 
         logger.LogInformation("Calling ChatGPT model {Model}", openAiConfig.CurrentValue.Model);
 
-        var response = await this._client.GetChatCompletionsStreamingAsync(openAiConfig.CurrentValue.Model, chatCompletionsOptions, token);
+        var response = await client.GetChatCompletionsStreamingAsync(openAiConfig.CurrentValue.Model, chatCompletionsOptions, token);
 
         using var completions = response.Value;
 
@@ -45,5 +56,18 @@ public class OpenAIChatBotService(IOptionsMonitor<OpenAIOptions> openAiConfig, I
         };
 
         return new ChatMessage(openAiChatRole, message.Content);
+    }
+
+    private (OpenAIClient Client, string ApiKey)? _lastClient;
+    private OpenAIClient? GetClient()
+    {
+        if (this._lastClient is null || this._lastClient.Value.ApiKey != openAiConfig.CurrentValue.ApiKey)
+        {
+            _lastClient = string.IsNullOrWhiteSpace(openAiConfig.CurrentValue.ApiKey) is false
+                ? (new OpenAIClient(openAiConfig.CurrentValue.ApiKey), openAiConfig.CurrentValue.ApiKey)
+                : null;
+        }
+
+        return _lastClient?.Client;
     }
 }
