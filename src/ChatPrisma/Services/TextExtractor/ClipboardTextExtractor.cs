@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows.Forms;
-using System.Windows.Input;
+using ChatPrisma.Common;
 using ChatPrisma.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -40,59 +40,51 @@ public class ClipboardTextExtractor(IOptionsMonitor<HotkeyOptions> hotkeyOptions
 
     private async Task WaitUntilNoKeyPressed()
     {
-        var task = Task.Delay(TimeSpan.FromMilliseconds(hotkeyOptions.CurrentValue.HotkeyDelayInMilliseconds));
         var watch = Stopwatch.StartNew();
 
-        // Either wait until the task is completed or the user releases all keys
-        while (task.IsCompleted is false)
+        var success = await TaskHelper.WaitUntil(() => KeyboardHelper.AnyKeyPressed() is false, hotkeyOptions.CurrentValue.HotkeyDelayInMilliseconds);
+        if (success)
         {
-            if (AnyKeyPressed() is false)
-            {
-                logger.LogInformation("Early exit from WaitUntilNoKeyPressed because no key is pressed anymore (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
-                return;
-            }
-
-            await Task.Delay(10);
+            logger.LogInformation("Early exit from WaitUntilNoKeyPressed because no key is pressed anymore (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
         }
-
-        logger.LogInformation("Sadly the user did not release all keys in time (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
-    }
-
-    private static readonly Key[] s_allKeys = Enum.GetValues<Key>();
-    private static bool AnyKeyPressed()
-    {
-        foreach (var key in s_allKeys)
+        else
         {
-            // Skip the None key
-            if (key == Key.None)
-                continue;
-
-            if (Keyboard.IsKeyDown(key))
-                return true;
+            logger.LogInformation("Sadly the user did not release all keys in time (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
         }
-
-        return false;
     }
 
     private async Task<string?> WaitUntilClipboardTextIsAvailable()
     {
-        var task = Task.Delay(TimeSpan.FromMilliseconds(hotkeyOptions.CurrentValue.ClipboardDelayInMilliseconds));
         var watch = Stopwatch.StartNew();
 
-        // Either wait until the task is completed or we got some text in the clipboard
-        while (task.IsCompleted is false)
+        var (success, text) = await TaskHelper.WaitUntil(ClipboardHasText, hotkeyOptions.CurrentValue.ClipboardDelayInMilliseconds);
+        if (success)
         {
-            var dataObject = Clipboard.GetDataObject();
-            if (dataObject?.GetData(DataFormats.Text) is string text)
-            {
-                logger.LogInformation("Early exit from WaitUntilClipboardIsFilled because we got some text from the clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
-                return text;
-            }
-
-            await Task.Delay(10);
+            logger.LogInformation("Early exit from WaitUntilClipboardIsFilled because we got some text from the clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
+        }
+        else
+        {
+            logger.LogInformation("Sadly no text available in clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
         }
 
-        logger.LogInformation("Sadly no text available in clipboard (after {Time} ms)", watch.Elapsed.TotalMilliseconds);
-        return null;
+        return text;
+
+        (bool, string?) ClipboardHasText()
+        {
+            try
+            {
+                var dataObject = Clipboard.GetDataObject();
+                return dataObject?.GetData(DataFormats.Text) is string s
+                    ? (true, s)
+                    : (false, null);
+            }
+#pragma warning disable CA1031
+            catch (Exception e)
+#pragma warning restore CA1031
+            {
+                logger.LogError(e, "An error occurred when accessing the clipboard contents.");
+                return (false, null);
+            }
+        }
     }
 }
