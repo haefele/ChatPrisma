@@ -6,9 +6,7 @@ public record OpenAIOptions
 {
     public const string Section = "OpenAI";
 
-    [Required]
-    public string Model { get; set; } = default!;
+    public string? Model { get; set; }
 
-    [Required]
-    public string ApiKey { get; set; } = default!;
+    public string? ApiKey { get; set; }
 }

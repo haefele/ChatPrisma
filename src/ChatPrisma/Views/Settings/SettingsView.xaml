@@ -1,8 +1,6 @@
 <UserControl x:Class="ChatPrisma.Views.Settings.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:local="clr-namespace:ChatPrisma.Views.Settings" 
-             xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF" 
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
              
@@ -14,38 +12,38 @@
              
              themes:Attached.WindowTitle="Einstellungen"
              
-             Width="300">
-    <UserControl.Resources>
-        <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <dxmvvm:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Inverse="True" />
-    </UserControl.Resources>
-    
-    <StackPanel>
+             Width="400">
+    <StackPanel themes:Spacing.Vertical="10">
+        
         <GroupBox Header="Autostart" themes:Attached.Icon="ArrowRepeatAll">
-            <Grid>
-                <Grid Visibility="{Binding IsAutoStartActive, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="80" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <wpf:SymbolIcon Grid.Column="0" Symbol="Checkmark" Foreground="#26ED51" />
-                    <TextBlock Grid.Column="1" Text="Autostart ist aktiviert" VerticalAlignment="Center" />
-                    <Button Grid.Column="2" Content="Deaktivieren" Command="{Binding DisableAutoStartCommand}" />
-                </Grid>
-                <Grid Visibility="{Binding IsAutoStartActive, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="80" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <wpf:SymbolIcon Grid.Column="0" Symbol="Dismiss" />
-                    <TextBlock Grid.Column="1" Text="Autostart ist deaktiviert" VerticalAlignment="Center" />
-                    <Button Grid.Column="2" Content="Aktivieren" Command="{Binding EnableAutoStartCommand}" />
-                </Grid>
-            </Grid>
+            <CheckBox IsChecked="{Binding IsAutoStartActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                <TextBlock>
+                    <Run Text="{Binding ApplicationName}" />
+                    <Run Text="automatisch mit Windows starten" />
+                </TextBlock>
+            </CheckBox>
         </GroupBox>
+        
+        <GroupBox Header="OpenAI" themes:Attached.Icon="Star">
+            <StackPanel themes:Spacing.Vertical="6">
+                <TextBox themes:Attached.Placeholder="Model"
+                         Text="{Binding Model, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTipService.ShowDuration="100000">
+                    <TextBox.ToolTip>
+                        <TextBlock>
+                            <Run Text="Welches Model von OpenAI für die Textverbesserung verwendet werden soll." />
+                            <LineBreak /><LineBreak />
+                            <Bold><Run Text="Zum Beispiel:" /></Bold><LineBreak />
+                            <Run Text="• gpt-3.5-turbo" /><LineBreak />
+                            <Run Text="• gpt-4" /><LineBreak />
+                            <Run Text="• gpt-4-1106-preview" />
+                        </TextBlock>
+                    </TextBox.ToolTip>
+                </TextBox>
+                <TextBox themes:Attached.Placeholder="API-Key"
+                         Text="{Binding ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </GroupBox>
+        
     </StackPanel>
 </UserControl>
