@@ -54,7 +54,14 @@ public class DialogService(IServiceProvider serviceProvider, IOptionsMonitor<App
         // Need an await for the caller to yield
         await Task.Yield();
 
-        return window.ShowDialog();
+        var result = window.ShowDialog();
+
+        if (viewModel is IFinalize finalize)
+        {
+            await finalize.FinalizeAsync();
+        }
+
+        return result;
     }
 
     private Type ResolveViewType(object viewModel)
