@@ -7,6 +7,8 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Themes\Images\AppIcon.ico</ApplicationIcon>
         <UserSecretsId>Chat-Prisma-9c00c175-581f-4d2e-a2f2-5e67274af4d4</UserSecretsId>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <NoWarn>$(NoWarn);WFAC010</NoWarn>
     </PropertyGroup>
 
     <ItemGroup Label="Dependencies">
@@ -39,6 +41,10 @@
     
     <ItemGroup Label="Images">
       <Resource Include="Themes\Images\*" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <None Remove="app.manifest" />
     </ItemGroup>
 
 </Project>
