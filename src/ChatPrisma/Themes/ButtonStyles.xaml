@@ -3,7 +3,7 @@
 
     <Style TargetType="Button">
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="Padding" Value="5, 6, 5, 6" />
+        <Setter Property="Padding" Value="8, 6, 8, 6" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
