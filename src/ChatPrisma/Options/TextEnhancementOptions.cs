@@ -1,7 +1,9 @@
 ﻿namespace ChatPrisma.Options;
 
-public class TextEnhancementOptions
+public record TextEnhancementOptions
 {
+    public const string Section = "TextEnhancement";
+
     public int TextSize { get; set; }
     public string? CustomInstructions { get; set; }
 }

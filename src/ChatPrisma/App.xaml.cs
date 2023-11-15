@@ -98,7 +98,7 @@ public partial class App : ISingleInstance
                     o.AppShutdownHeader = "Beenden";
                 });
             services.AddOptions<OpenAIOptions>()
-                .BindConfiguration("OpenAI")
+                .BindConfiguration(OpenAIOptions.Section)
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             services.AddOptions<ApplicationOptions>()
@@ -123,7 +123,7 @@ public partial class App : ISingleInstance
                     o.CheckForUpdatesInBackground = true;
                     o.MinutesBetweenUpdateChecks = 30;
                 })
-                .BindConfiguration("Updater")
+                .BindConfiguration(UpdaterOptions.Section)
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             services.AddOptions<HotkeyOptions>()
@@ -134,7 +134,7 @@ public partial class App : ISingleInstance
                     o.HotkeyDelayInMilliseconds = 500;
                     o.ClipboardDelayInMilliseconds = 500;
                 })
-                .BindConfiguration("Hotkey")
+                .BindConfiguration(HotkeyOptions.Section)
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
             services.AddOptions<TextEnhancementOptions>()
@@ -142,7 +142,7 @@ public partial class App : ISingleInstance
                 {
                     o.TextSize = 12;
                 })
-                .BindConfiguration("TextEnhancement")
+                .BindConfiguration(TextEnhancementOptions.Section)
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
