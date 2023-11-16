@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ChatPrisma.Views.TextEnhancement"
              xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
+             xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,12 +25,13 @@
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="Text" />
+                        <StackPanel HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Text" />
 
-                        <Grid IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}"
-                              HorizontalAlignment="Right">
                             <themes:Stepper Height="24" 
-                                            Margin="0, -2"
+                                            Margin="7, -2, 0, -2"
+                                            IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}"
                                             PreviousCommand="{Binding PreviousVersionCommand}" 
                                             Value="{Binding CurrentVersion}" 
                                             NextCommand="{Binding NextVersionCommand}">
@@ -45,10 +47,33 @@
                                     </TextBlock>
                                 </themes:Stepper.ToolTip>
                             </themes:Stepper>
-                        </Grid>
+                        </StackPanel>
+                        
+                        <StackPanel HorizontalAlignment="Right"
+                                    Orientation="Horizontal"
+                                    TextBlock.FontSize="12"
+                                    TextBlock.FontWeight="Normal">
+                            <CheckBox IsChecked="{Binding AutoPaste, UpdateSourceTrigger=PropertyChanged}" 
+                                      Content="auto. einfügen"
+                                      ToolTip="Wenn angehakt, wird der Text automatisch in der vorherigen Anwendung eingefügt."/>
+                            
+                            <Button Margin="5, -5, 0, -5" Command="{Binding AcceptTextCommand}"
+                                    Width="24"
+                                    Height="24">
+                                <Button.ToolTip>
+                                    <TextBlock>
+                                        <Run Text="Den Text akzeptieren und in die Zwischenablage kopieren." /> <LineBreak />
+                                        <Run Text="STRG+Enter" />
+                                    </TextBlock>
+                                </Button.ToolTip>
+                                <wpf:SymbolIcon Symbol="ArrowRight"
+                                                Margin="-5"/>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
+
             <ScrollViewer x:Name="TextScrollViewer"
                           VerticalScrollBarVisibility="Auto"
                           Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
@@ -67,7 +92,7 @@
         <GroupBox Grid.Row="1" Header="Änderungen" themes:Attached.Icon="InkingTool">
             <Grid>
                 <TextBox x:Name="InstructionTextBox"
-                         themes:Attached.Placeholder="Anweisung"
+                         themes:Attached.Placeholder="Anweisung wie der Text geändert werden soll"
                          IsReadOnly="{Binding ApplyInstructionCommand.IsRunning}"
                          Text="{Binding Instruction, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
