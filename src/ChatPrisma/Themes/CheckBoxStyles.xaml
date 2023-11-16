@@ -13,6 +13,7 @@
                         
                         <!-- This is the content presenter for additional content like text -->
                         <ContentPresenter Grid.Column="0"
+                                          Margin="0, 0, 3, 0"
                                           VerticalAlignment="Center"
                                           Content="{TemplateBinding Content}"/>
                         
