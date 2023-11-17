@@ -32,15 +32,6 @@ public class DialogService(IServiceProvider serviceProvider, IOptionsMonitor<App
             FallbackValue = applicationOptions.CurrentValue.ApplicationName,
         });
 
-        if (viewModel is ICloseWindow closeWindow)
-        {
-            closeWindow.Close += (_, e) =>
-            {
-                // This automatically closes the window
-                window.DialogResult = e.DialogResult;
-            };
-        }
-
         if (viewModel is IConfigureWindow configureWindow)
         {
             configureWindow.Configure(window);
@@ -51,10 +42,25 @@ public class DialogService(IServiceProvider serviceProvider, IOptionsMonitor<App
             await initialize.InitializeAsync();
         }
 
-        // Need an await for the caller to yield
-        await Task.Yield();
+        TaskCompletionSource<bool?> showDialogTaskCompletionSource = new();
 
-        var result = window.ShowDialog();
+        if (viewModel is ICloseWindow closeWindow)
+        {
+            closeWindow.Close += (_, e) =>
+            {
+                showDialogTaskCompletionSource.TrySetResult(e.DialogResult);
+                window.Close();
+            };
+        }
+
+        window.Closed += (_, _) =>
+        {
+            showDialogTaskCompletionSource.TrySetResult(null);
+        };
+
+        window.Show();
+
+        var result = await showDialogTaskCompletionSource.Task;
 
         if (viewModel is IFinalize finalize)
         {
