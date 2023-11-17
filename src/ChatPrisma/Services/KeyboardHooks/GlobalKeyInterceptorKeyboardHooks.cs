@@ -62,9 +62,9 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
 
             return (parsedKey, parsedKeyModifiers);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            throw new PrismaException("Could not parse keyboard shortcut.");
+            throw new PrismaException("Could not parse keyboard shortcut.", exception);
         }
     }
 
