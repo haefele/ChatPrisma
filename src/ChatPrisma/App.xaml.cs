@@ -75,6 +75,8 @@ public partial class App : ISingleInstance
         logger?.LogError(e.Exception, "An unhandled exception occurred.");
 
         e.Handled = true;
+
+        // TODO: Show error message
     }
 
     public void OnInstanceInvoked(string[] args)
