@@ -93,6 +93,7 @@
             <Grid>
                 <TextBox x:Name="InstructionTextBox"
                          themes:Attached.Placeholder="Anweisung wie der Text geändert werden soll"
+                         FontSize="{Binding TextSize}"
                          IsReadOnly="{Binding ApplyInstructionCommand.IsRunning}"
                          Text="{Binding Instruction, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.InputBindings>
