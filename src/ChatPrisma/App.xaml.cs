@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NLog.Extensions.Hosting;
+using NLog.Extensions.Logging;
 using Onova;
 using Onova.Models;
 using Onova.Services;
@@ -174,5 +175,8 @@ public partial class App : ISingleInstance
             services.AddHostedService<PrismaHostedService>();
             services.AddHostedService<UpdaterHostedService>();
         })
-        .UseNLog();
+        .UseNLog(new NLogProviderOptions
+        {
+            ReplaceLoggerFactory = true
+        });
 }
