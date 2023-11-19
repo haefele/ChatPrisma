@@ -56,4 +56,47 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style x:Key="EmptyTextBox" TargetType="TextBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="CaretBrush" Value="White"/>
+        <Setter Property="Margin" Value="6, 7, 6, 7" />
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Command="Cut">
+                        <MenuItem.Icon>
+                            <wpf:SymbolIcon Symbol="Cut" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Command="Copy">
+                        <MenuItem.Icon>
+                            <wpf:SymbolIcon Symbol="Copy" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Command="Paste">
+                        <MenuItem.Icon>
+                            <wpf:SymbolIcon Symbol="ClipboardPaste" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid Margin="{TemplateBinding Margin}">
+                        <TextBlock Text="{Binding Path=(themes:Attached.Placeholder), RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Margin="2, 0, 0, 0" 
+                                   Foreground="Gray"
+                                   Visibility="{DXBinding '@p.Text != null and @p.Text.Length > 0 ? $Visibility.Collapsed : $Visibility.Visible'}" />
+                        
+                        <ScrollViewer x:Name="PART_ContentHost" 
+                                      VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

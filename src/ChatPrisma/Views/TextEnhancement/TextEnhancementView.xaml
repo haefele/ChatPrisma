@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatPrisma.Views.TextEnhancement"
-             xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
              xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
              
@@ -77,15 +76,17 @@
             <ScrollViewer x:Name="TextScrollViewer"
                           VerticalScrollBarVisibility="Auto"
                           Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
-                <emoji:TextBlock x:Name="TextTextBlock"
-                                 Text="{Binding CurrentText}"
-                                 FontSize="{Binding TextSize}"
-                                 TextWrapping="Wrap" 
-                                 SizeChanged="TextTextBlock_OnSizeChanged">
-                    <emoji:TextBlock.Margin>
-                        <Thickness>0, 8, 0, 10</Thickness> <!-- Give it some inner margin back (same values as GroupBox inner margin) -->
-                    </emoji:TextBlock.Margin>
-                </emoji:TextBlock>
+                <TextBox x:Name="TextTextBox"
+                         Style="{StaticResource EmptyTextBox}"
+                         Text="{Binding CurrentText}"
+                         FontSize="{Binding TextSize}"
+                         TextWrapping="Wrap"
+                         IsReadOnly="True"
+                         SizeChanged="TextTextBox_OnSizeChanged">
+                    <TextBox.Margin>
+                        <Thickness>0, 4, 0, 6</Thickness> <!-- Give it some inner margin back so it looks good -->
+                    </TextBox.Margin>
+                </TextBox>
             </ScrollViewer>
         </GroupBox>
         
