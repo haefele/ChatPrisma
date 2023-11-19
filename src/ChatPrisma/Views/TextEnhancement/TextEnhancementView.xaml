@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ChatPrisma.Views.TextEnhancement"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
              xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -26,26 +27,15 @@
                     <Grid>
                         <StackPanel HorizontalAlignment="Left"
                                     Orientation="Horizontal">
-                            <TextBlock Text="Text" />
+                            <TextBlock Text="{x:Static resources:Strings.Text}" />
 
                             <themes:Stepper Height="24" 
                                             Margin="7, -2, 0, -2"
                                             IsEnabled="{DXBinding '!ApplyInstructionCommand.IsRunning'}"
                                             PreviousCommand="{Binding PreviousVersionCommand}" 
                                             Value="{Binding CurrentVersion}" 
-                                            NextCommand="{Binding NextVersionCommand}">
-                                <themes:Stepper.ToolTip>
-                                    <TextBlock>
-                                        <Run Text="Die Version des aktuell angezeigten Textes." />
-                                        <LineBreak /><LineBreak />
-                                        <Bold>Vorherige Version:</Bold><LineBreak />
-                                        <Run Text="ALT+Links" />
-                                        <LineBreak /><LineBreak />
-                                        <Bold>Nächste Version:</Bold><LineBreak />
-                                        <Run Text="ALT+Rechts" />
-                                    </TextBlock>
-                                </themes:Stepper.ToolTip>
-                            </themes:Stepper>
+                                            NextCommand="{Binding NextVersionCommand}"
+                                            ToolTip="{x:Static resources:Strings.StepperTooltip}" />
                         </StackPanel>
                         
                         <StackPanel HorizontalAlignment="Right"
@@ -53,18 +43,13 @@
                                     TextBlock.FontSize="12"
                                     TextBlock.FontWeight="Normal">
                             <CheckBox IsChecked="{Binding AutoPaste, UpdateSourceTrigger=PropertyChanged}" 
-                                      Content="auto. einfügen"
-                                      ToolTip="Wenn angehakt, wird der Text automatisch in der vorherigen Anwendung eingefügt."/>
+                                      Content="{x:Static resources:Strings.AutoInsert}"
+                                      ToolTip="{x:Static resources:Strings.AutoInsertTooltip}"/>
                             
                             <Button Margin="5, -5, 0, -5" Command="{Binding AcceptTextCommand}"
                                     Width="24"
-                                    Height="24">
-                                <Button.ToolTip>
-                                    <TextBlock>
-                                        <Run Text="Den Text akzeptieren und in die Zwischenablage kopieren." /> <LineBreak />
-                                        <Run Text="STRG+Enter" />
-                                    </TextBlock>
-                                </Button.ToolTip>
+                                    Height="24"
+                                    ToolTip="{x:Static resources:Strings.AcceptTextTooltip}">
                                 <wpf:SymbolIcon Symbol="ArrowRight"
                                                 Margin="-5"/>
                             </Button>
@@ -90,10 +75,10 @@
             </ScrollViewer>
         </GroupBox>
         
-        <GroupBox Grid.Row="1" Header="Änderungen" themes:Attached.Icon="InkingTool">
+        <GroupBox Grid.Row="1" Header="{x:Static resources:Strings.TextEnhancement}" themes:Attached.Icon="InkingTool">
             <Grid>
                 <TextBox x:Name="InstructionTextBox"
-                         themes:Attached.Placeholder="Anweisung wie der Text geändert werden soll"
+                         themes:Attached.Placeholder="{x:Static resources:Strings.TextEnhancementPlaceholder}"
                          FontSize="{Binding TextSize}"
                          IsReadOnly="{Binding ApplyInstructionCommand.IsRunning}"
                          Text="{Binding Instruction, UpdateSourceTrigger=PropertyChanged}">

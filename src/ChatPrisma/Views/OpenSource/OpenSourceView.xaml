@@ -1,25 +1,22 @@
 ﻿<UserControl x:Class="ChatPrisma.Views.OpenSource.OpenSourceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ChatPrisma.Views.OpenSource"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
-             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
                           
-             themes:Attached.WindowTitle="Open-Source"
+             themes:Attached.WindowTitle="{x:Static resources:Strings.OpenSource}"
              
              Width="330">
     <Grid>
 
-        <GroupBox Header="Open-Source Bibliotheken" themes:Attached.Icon="Globe">
+        <GroupBox Header="{x:Static resources:Strings.OpenSourceLibraries}" themes:Attached.Icon="Globe">
             <StackPanel themes:Spacing.Vertical="10">
                 <TextBlock TextWrapping="Wrap">
-                    <Run Text="{Binding ApplicationName}" /><Run Text=" wäre ohne die Unterstützung dieser Open-Source-Bibliotheken nicht möglich gewesen." /><LineBreak />
-                    <LineBreak />
-                    <Run Text="Daher möchte ich mich herzlich bei allen Entwicklern dieser Bibliotheken bedanken." />
+                    <Run Text="{Binding ApplicationName, StringFormat={x:Static resources:Strings.OpenSourcePraise}}" />
                 </TextBlock>
             
                 <ItemsControl ItemsSource="{Binding ThirdPartyLibraries}">

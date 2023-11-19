@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Threading;
 using ChatPrisma.Host;
 using ChatPrisma.HostedServices;
 using ChatPrisma.Options;
+using ChatPrisma.Resources;
 using ChatPrisma.Services.AutoStart;
 using ChatPrisma.Services.ChatBot;
 using ChatPrisma.Services.Dialogs;
@@ -29,6 +31,14 @@ public partial class App : ISingleInstance
 {
     private IHost? _host;
 
+    public App()
+    {
+        // Setup culture
+        FrameworkElement.LanguageProperty.OverrideMetadata(
+            typeof(FrameworkElement),
+            new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentUICulture.IetfLanguageTag)));
+    }
+
     private async void App_OnStartup(object sender, StartupEventArgs e)
     {
         try
@@ -40,6 +50,7 @@ public partial class App : ISingleInstance
                 return;
             }
 
+            // Create and start host
             this._host = this.CreateHostBuilder(e.Args).Build();
             await this._host.StartAsync();
 
@@ -99,7 +110,7 @@ public partial class App : ISingleInstance
                     o.MouseDoubleClickAction = WindowsTray.HandleDoubleClick;
                     o.ContextMenuFactory = WindowsTray.CreateContextMenu;
                     o.AppShutdownEnabled = true;
-                    o.AppShutdownHeader = "Beenden";
+                    o.AppShutdownHeader = Strings.Shutdown;
                 });
             services.AddOptions<OpenAIOptions>()
                 .BindConfiguration(OpenAIOptions.Section)

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ChatPrisma.Resources;
 using ChatPrisma.Services.Dialogs;
 using ChatPrisma.Services.TextExtractor;
 using ChatPrisma.Services.ViewModels;
@@ -37,19 +38,19 @@ public static class WindowsTray
                 new MenuItem
                 {
                     Icon = new SymbolIcon { Symbol = Symbol.Info },
-                    Header = "Über",
+                    Header = Strings.About,
                     Command = new AsyncRelayCommand(() => ShowAbout(serviceProvider))
                 },
                 new MenuItem
                 {
                     Icon = new SymbolIcon { Symbol = Symbol.DrawerArrowDownload },
-                    Header = "Nach Updates suchen",
+                    Header = Strings.CheckForUpdates,
                     Command = new AsyncRelayCommand(() => ShowUpdates(serviceProvider))
                 },
                 new MenuItem
                 {
                     Icon = new SymbolIcon { Symbol = Symbol.Settings },
-                    Header = "Einstellungen",
+                    Header = Strings.Settings,
                     Command = new AsyncRelayCommand(() => ShowSettings(serviceProvider)),
                 },
             }
