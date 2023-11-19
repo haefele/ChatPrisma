@@ -54,5 +54,26 @@
     <ItemGroup Label="Images">
       <Resource Include="Themes\Images\*" />
     </ItemGroup>
+    
+    <ItemGroup Label="Localization">
+      <EmbeddedResource Update="Resources\Strings.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <Compile Update="Resources\Strings.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Strings.resx</DependentUpon>
+      </Compile>
+      <EmbeddedResource Update="Resources\Strings.de.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Strings.de.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <Compile Update="Resources\Strings.de.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Strings.de.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
 
 </Project>

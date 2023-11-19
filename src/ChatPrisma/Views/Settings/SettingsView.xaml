@@ -3,6 +3,7 @@
              xmlns:local="clr-namespace:ChatPrisma.Views.Settings" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,37 +11,24 @@
              
              d:DataContext="{d:DesignInstance local:SettingsViewModel}"
              
-             themes:Attached.WindowTitle="Einstellungen"
+             themes:Attached.WindowTitle="{x:Static resources:Strings.Settings}"
              
              Width="400">
     <StackPanel themes:Spacing.Vertical="10">
         
-        <GroupBox Header="Autostart" themes:Attached.Icon="ArrowRepeatAll">
+        <GroupBox Header="{x:Static resources:Strings.Autostart}" themes:Attached.Icon="ArrowRepeatAll">
             <CheckBox IsChecked="{Binding IsAutoStartActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-                <TextBlock>
-                    <Run Text="{Binding ApplicationName}" />
-                    <Run Text="automatisch mit Windows starten" />
-                </TextBlock>
+                <TextBlock Text="{Binding ApplicationName, StringFormat={x:Static resources:Strings.StartWithWindows}}" />
             </CheckBox>
         </GroupBox>
         
-        <GroupBox Header="OpenAI" themes:Attached.Icon="Star">
+        <GroupBox Header="{x:Static resources:Strings.OpenAI}" themes:Attached.Icon="Star">
             <StackPanel themes:Spacing.Vertical="6">
-                <TextBox themes:Attached.Placeholder="Model"
+                <TextBox themes:Attached.Placeholder="{x:Static resources:Strings.OpenAIModel}"
                          Text="{Binding Model, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         ToolTipService.ShowDuration="100000">
-                    <TextBox.ToolTip>
-                        <TextBlock>
-                            <Run Text="Welches Model von OpenAI für die Textverbesserung verwendet werden soll." />
-                            <LineBreak /><LineBreak />
-                            <Bold><Run Text="Zum Beispiel:" /></Bold><LineBreak />
-                            <Run Text="• gpt-3.5-turbo" /><LineBreak />
-                            <Run Text="• gpt-4" /><LineBreak />
-                            <Run Text="• gpt-4-1106-preview" />
-                        </TextBlock>
-                    </TextBox.ToolTip>
-                </TextBox>
-                <TextBox themes:Attached.Placeholder="API-Key"
+                         ToolTipService.ShowDuration="100000"
+                         ToolTip="{x:Static resources:Strings.OpenAIModelTooltip}" />
+                <TextBox themes:Attached.Placeholder="{x:Static resources:Strings.OpenAIApiKey}"
                          Text="{Binding ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </GroupBox>

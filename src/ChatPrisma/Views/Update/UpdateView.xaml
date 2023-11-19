@@ -5,6 +5,7 @@
              xmlns:dxmvvm="clr-namespace:DevExpress.Mvvm.UI;assembly=DevExpress.Mvvm.UI"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
              xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -12,7 +13,7 @@
              
              d:DataContext="{d:DesignInstance local:UpdateViewModel}"
                           
-             themes:Attached.WindowTitle="Update">
+             themes:Attached.WindowTitle="{x:Static resources:Strings.Update}">
     <UserControl.Resources>
         <dxmvvm:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <dxmvvm:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" Inverse="True" />
@@ -33,17 +34,17 @@
         <GroupBox Grid.Column="1" 
                   VerticalAlignment="Center"
                   HorizontalAlignment="Stretch"
-                  Header="Update verfügbar"
+                  Header="{x:Static resources:Strings.UpdateAvailable}"
                   Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}"
                   themes:Attached.Icon="DrawerArrowDownload">
             <StackPanel>
                 <TextBlock TextWrapping="Wrap">
-                    <Run Text="Ein Update für "/><Run Text="{Binding ApplicationName}" /><Run Text=" steht zur Verfügung!" /><LineBreak />
+                    <Run Text="{Binding ApplicationName, StringFormat={x:Static resources:Strings.UpdateAvailableDescription}}" /><LineBreak />
                     <LineBreak />
-                    <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" /><LineBreak />
-                    <Bold><Run Text="Neue Version: " /></Bold><Run Text="{Binding UpdateVersion}" /><LineBreak />
+                    <Bold><Run Text="{x:Static resources:Strings.YourVersion}" /></Bold><Run Text="{Binding CurrentVersion}" /><LineBreak />
+                    <Bold><Run Text="{x:Static resources:Strings.NewVersion}" /></Bold><Run Text="{Binding UpdateVersion}" /><LineBreak />
                 </TextBlock>
-                <Button Content="Jetzt updaten!" 
+                <Button Content="{x:Static resources:Strings.UpdateNow}" 
                         Command="{Binding DownloadAndInstallUpdateCommand}" />
             </StackPanel>
         </GroupBox>
@@ -58,13 +59,13 @@
         <GroupBox Grid.Column="1" 
                   VerticalAlignment="Center"
                   HorizontalAlignment="Stretch"
-                  Header="Kein Update verfügbar" 
+                  Header="{x:Static resources:Strings.NoUpdateAvailable}" 
                   Visibility="{Binding UpdateAvailable, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                   themes:Attached.Icon="DrawerDismiss">
             <TextBlock TextWrapping="Wrap">
-                <Run Text="Sie verwenden im Moment die aktuellste Version von "/><Run Text="{Binding ApplicationName}" /><Run Text="!" /><LineBreak />
+                <Run Text="{Binding ApplicationName, StringFormat={x:Static resources:Strings.NoUpdateAvailableDescription}}" /><LineBreak />
                 <LineBreak />
-                <Bold><Run Text="Ihre Version: " /></Bold><Run Text="{Binding CurrentVersion}" />
+                <Bold><Run Text="{x:Static resources:Strings.YourVersion}" /></Bold><Run Text="{Binding CurrentVersion}" />
             </TextBlock>
         </GroupBox>
         

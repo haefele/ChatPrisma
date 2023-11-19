@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>Über</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="CommitID" xml:space="preserve">
+    <value>Commit-ID:</value>
+  </data>
+  <data name="OpenSourceLibraries" xml:space="preserve">
+    <value>Open-Source Bibliotheken</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+  <data name="OpenSourcePraise" xml:space="preserve">
+    <value>{0} wäre ohne die Unterstützung dieser Open-Source-Bibliotheken nicht möglich gewesen.
+
+Daher möchte ich mich herzlich bei allen Entwicklern dieser Bibliotheken bedanken.</value>
+  </data>
+  <data name="OpenSource" xml:space="preserve">
+    <value>Open-Source</value>
+  </data>
+  <data name="Autostart" xml:space="preserve">
+    <value>Autostart</value>
+  </data>
+  <data name="OpenAI" xml:space="preserve">
+    <value>OpenAI</value>
+  </data>
+  <data name="OpenAIApiKey" xml:space="preserve">
+    <value>API-Key</value>
+  </data>
+  <data name="OpenAIModel" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="StartWithWindows" xml:space="preserve">
+    <value>{0} automatisch mit Windows starten</value>
+  </data>
+  <data name="OpenAIModelTooltip" xml:space="preserve">
+    <value>Welches Model von OpenAI für die Textverbesserung verwendet werden soll.
+
+Zum Beispiel:
+• gpt-3.5-turbo
+• gpt-4
+• gpt-4-1106-preview</value>
+  </data>
+  <data name="ApiKeyMissing" xml:space="preserve">
+    <value>Bitte tragen Sie einen OpenAI API-Key in den Einstellungen ein.</value>
+  </data>
+  <data name="ModelMissing" xml:space="preserve">
+    <value>Bitte tragen Sie ein OpenAI Model in den Einstellungen ein.</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="StepperTooltip" xml:space="preserve">
+    <value>Die Version des aktuell angezeigten Textes.
+
+Vorherige Version:
+ALT+Links
+
+Nächste Version:
+ALT+Rechts</value>
+  </data>
+  <data name="AutoInsert" xml:space="preserve">
+    <value>auto. einfügen</value>
+  </data>
+  <data name="AutoInsertTooltip" xml:space="preserve">
+    <value>Wenn angehakt, wird der Text automatisch in der vorherigen Anwendung eingefügt.</value>
+  </data>
+  <data name="AcceptTextTooltip" xml:space="preserve">
+    <value>Den Text akzeptieren und in die Zwischenablage kopieren.
+STRG+Enter</value>
+  </data>
+  <data name="TextEnhancement" xml:space="preserve">
+    <value>Änderungen</value>
+  </data>
+  <data name="TextEnhancementPlaceholder" xml:space="preserve">
+    <value>Anweisung wie der Text verbessert werden soll</value>
+  </data>
+  <data name="NewVersion" xml:space="preserve">
+    <value>Neue Version: </value>
+  </data>
+  <data name="NoUpdateAvailable" xml:space="preserve">
+    <value>Kein Update verfügbar</value>
+  </data>
+  <data name="NoUpdateAvailableDescription" xml:space="preserve">
+    <value>Sie verwenden im Moment die aktuellste Version von {0}!</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Update verfügbar</value>
+  </data>
+  <data name="UpdateAvailableDescription" xml:space="preserve">
+    <value>Ein Update für {0} steht zur Verfügung! </value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>Jetzt updaten!</value>
+  </data>
+  <data name="YourVersion" xml:space="preserve">
+    <value>Ihre Version: </value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Nach Updates suchen</value>
+  </data>
+  <data name="Shutdown" xml:space="preserve">
+    <value>Beenden</value>
+  </data>
+</root>

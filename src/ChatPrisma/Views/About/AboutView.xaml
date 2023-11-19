@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ChatPrisma.Views.About"
              xmlns:themes="clr-namespace:ChatPrisma.Themes"
-             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
              
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,23 +12,19 @@
              
              d:DataContext="{d:DesignInstance local:AboutViewModel}"
              
-             themes:Attached.WindowTitle="Über">
+             themes:Attached.WindowTitle="{x:Static resources:Strings.About}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="250" />
         </Grid.ColumnDefinitions>
 
-        <!--<Image Grid.Column="0" 
-               Width="250"
-               Margin="10, 0, 10, 0"
-               Source="{svgc:SvgImage Source='/Themes/Images/undraw_data_points.svg'}" />-->
         <Image Grid.Column="0"
                Width="200" 
                Source="/Themes/Images/AppIcon.ico" />
 
         <StackPanel Grid.Column="1" themes:Spacing.Vertical="10">
-            <GroupBox Header="Infos" themes:Attached.Icon="Info">
+            <GroupBox Header="{x:Static resources:Strings.Info}" themes:Attached.Icon="Info">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -38,11 +34,11 @@
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="{Binding ApplicationName}" />
                         <TextBlock>
-                            <Run Text="Version" />
+                            <Run Text="{x:Static resources:Strings.Version}" />
                             <Run Text="{Binding ApplicationVersion}">
                                 <Run.ToolTip>
                                     <TextBlock>
-                                        <Run Text="Commit-ID:" />
+                                        <Run Text="{x:Static resources:Strings.CommitID}" />
                                         <Run Text="{Binding CommitId}" />
                                     </TextBlock>
                                 </Run.ToolTip>
@@ -50,20 +46,13 @@
                             <Run FontWeight="SemiBold" Text="{DXBinding 'IsPublicVersion ? `` : `Dev`', Mode=OneWay}" />
                         </TextBlock>
                         <TextBlock>
-                            <Hyperlink Command="{Binding ShowOpenSourceLibrariesCommand}"><Run Text="Open-Source Bibliotheken" /></Hyperlink>
+                            <Hyperlink Command="{Binding ShowOpenSourceLibrariesCommand}"><Run Text="{x:Static resources:Strings.OpenSourceLibraries}" /></Hyperlink>
                         </TextBlock>
                     </StackPanel>
-                    
-                    <!--<Image Grid.Column="1" 
-                           Source="/Themes/Images/AppIcon.ico" 
-                           Margin="0, 0, 7, 0"
-                           Width="32" 
-                           Height="32" 
-                           RenderOptions.BitmapScalingMode="HighQuality" />-->
                 </Grid>
             </GroupBox>
         
-            <GroupBox Header="Kontakt" themes:Attached.Icon="Mail">
+            <GroupBox Header="{x:Static resources:Strings.Contact}" themes:Attached.Icon="Mail">
                 <StackPanel>
                     <TextBlock Text="{Binding ContactName}" />
                     <TextBlock><Hyperlink Click="Contact_EmailHyperlink_OnClick"><Run Text="{Binding ContactEmailAddress}" /></Hyperlink></TextBlock>

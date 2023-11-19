@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Azure.AI.OpenAI;
 using ChatPrisma.Options;
+using ChatPrisma.Resources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -13,13 +14,13 @@ public class OpenAIChatBotService(IOptionsMonitor<OpenAIOptions> openAiConfig, I
         var client = this.GetClient();
         if (client is null)
         {
-            yield return "Bitte tragen Sie einen OpenAI API-Key in den Einstellungen ein.";
+            yield return Strings.ApiKeyMissing;
             yield break;
         }
 
         if (string.IsNullOrWhiteSpace(openAiConfig.CurrentValue.Model))
         {
-            yield return "Bitte tragen Sie ein OpenAI Model in den Einstellungen ein.";
+            yield return Strings.ModelMissing;
             yield break;
         }
 
