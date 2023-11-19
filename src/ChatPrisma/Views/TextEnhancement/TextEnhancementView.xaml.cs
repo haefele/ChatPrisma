@@ -86,7 +86,7 @@ public partial class TextEnhancementView
         this.InstructionTextBox.Select(this.InstructionTextBox.Text.Length, 0);
     }
 
-    private void TextTextBlock_OnSizeChanged(object sender, SizeChangedEventArgs e)
+    private void TextTextBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         // Keep the ScrollViewer scrolled to the bottom while the text is generating
         this.ScrollToBottom();
