@@ -1,5 +1,6 @@
 ﻿using ChatPrisma.Views.Settings;
 using ChatPrisma.Views.About;
+using ChatPrisma.Views.Chat;
 using ChatPrisma.Views.TextEnhancement;
 using ChatPrisma.Views.Update;
 using Onova.Models;
@@ -12,6 +13,7 @@ public interface IViewModelFactory
     AboutViewModel CreateAboutViewModel();
     SettingsViewModel CreateSettingsViewModel();
     TextEnhancementViewModel CreateTextEnhancementViewModel(string text);
+    ChatViewModel CreateChatViewModel();
     UpdateViewModel CreateUpdateViewModel(CheckForUpdatesResult? updatesResult = null);
     OpenSourceViewModel CreateOpenSourceViewModel();
 }

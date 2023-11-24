@@ -9,17 +9,21 @@ namespace ChatPrisma.Services.KeyboardHooks;
 public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger, IOptions<HotkeyOptions> keyboardOptions) : IKeyboardHooks, IDisposable
 {
     private const string TextEnhancement = "TextEnhancement";
+    private const string Chat = "Chat";
 
     public event EventHandler? TextEnhancementHotkeyPressed;
+    public event EventHandler? ChatHotkeyPressed;
 
     private KeyInterceptor? _interceptor;
     public Task StartAsync()
     {
         var (textEnhancementKey, textEnhancementKeyModifiers) = ParseKey(keyboardOptions.Value.TextEnhancement);
+        var (chatKey, chatKeyModifiers) = ParseKey(keyboardOptions.Value.Chat);
 
         var shortcuts = new[]
         {
             new Shortcut(textEnhancementKey, textEnhancementKeyModifiers, TextEnhancement),
+            new Shortcut(chatKey, chatKeyModifiers, Chat),
         };
 
         this._interceptor = new KeyInterceptor(shortcuts);
@@ -46,6 +50,11 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
         if (e.Shortcut.Name == TextEnhancement)
         {
             this.TextEnhancementHotkeyPressed?.Invoke(this, EventArgs.Empty);
+            e.IsHandled = true;
+        }
+        else if (e.Shortcut.Name == Chat)
+        {
+            this.ChatHotkeyPressed?.Invoke(this, EventArgs.Empty);
             e.IsHandled = true;
         }
     }

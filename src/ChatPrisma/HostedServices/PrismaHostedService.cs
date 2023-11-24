@@ -11,12 +11,14 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
     public Task StartAsync(CancellationToken cancellationToken)
     {
         keyboardHooks.TextEnhancementHotkeyPressed += this.KeyboardHooksOnTextEnhancementHotkeyPressed;
+        keyboardHooks.ChatHotkeyPressed += this.KeyboardHooksOnChatHotkeyPressed;
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         keyboardHooks.TextEnhancementHotkeyPressed -= this.KeyboardHooksOnTextEnhancementHotkeyPressed;
+        keyboardHooks.ChatHotkeyPressed -= this.KeyboardHooksOnChatHotkeyPressed;
         return Task.CompletedTask;
     }
 
@@ -28,5 +30,11 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
 
         var textEnhancementViewModel = viewModelFactory.CreateTextEnhancementViewModel(text);
         await dialogService.ShowDialog(textEnhancementViewModel);
+    }
+
+    private async void KeyboardHooksOnChatHotkeyPressed(object? sender, EventArgs e)
+    {
+        var chatViewModel = viewModelFactory.CreateChatViewModel();
+        await dialogService.ShowDialog(chatViewModel);
     }
 }

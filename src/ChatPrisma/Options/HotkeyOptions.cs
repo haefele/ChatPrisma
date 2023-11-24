@@ -9,6 +9,9 @@ public record HotkeyOptions
     [Required]
     public KeyCombination TextEnhancement { get; set; } = new();
 
+    [Required]
+    public KeyCombination Chat { get; set; } = new();
+
     public int HotkeyDelayInMilliseconds { get; set; }
     public int ClipboardDelayInMilliseconds { get; set; }
 }

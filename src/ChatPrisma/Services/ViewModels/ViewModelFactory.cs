@@ -1,4 +1,5 @@
 ﻿using ChatPrisma.Views.About;
+using ChatPrisma.Views.Chat;
 using ChatPrisma.Views.OpenSource;
 using ChatPrisma.Views.Settings;
 using ChatPrisma.Views.TextEnhancement;
@@ -15,6 +16,7 @@ public class ViewModelFactory(IServiceProvider serviceProvider) : IViewModelFact
     public SettingsViewModel CreateSettingsViewModel() => ActivatorUtilities.CreateInstance<SettingsViewModel>(serviceProvider);
 
     public TextEnhancementViewModel CreateTextEnhancementViewModel(string text) => ActivatorUtilities.CreateInstance<TextEnhancementViewModel>(serviceProvider, text);
+    public ChatViewModel CreateChatViewModel() => ActivatorUtilities.CreateInstance<ChatViewModel>(serviceProvider);
 
     public UpdateViewModel CreateUpdateViewModel(CheckForUpdatesResult? updatesResult = null) => updatesResult is null
         ? ActivatorUtilities.CreateInstance<UpdateViewModel>(serviceProvider)

@@ -145,6 +145,7 @@ public partial class App : ISingleInstance
                 .Configure(o =>
                 {
                     o.TextEnhancement = new KeyCombination { Key = "Y", KeyModifiers = "Ctrl+Shift+Alt", };
+                    o.Chat = new KeyCombination { Key = "A", KeyModifiers = "Ctrl+Shift+Alt", };
                     o.HotkeyDelayInMilliseconds = 500;
                     o.ClipboardDelayInMilliseconds = 500;
                 })

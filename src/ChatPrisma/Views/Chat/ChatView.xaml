@@ -1,0 +1,51 @@
+<UserControl x:Class="ChatPrisma.Views.Chat.ChatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ChatPrisma.Views.Chat"
+             xmlns:themes="clr-namespace:ChatPrisma.Themes"
+             xmlns:wpf="clr-namespace:FluentIcons.WPF;assembly=FluentIcons.WPF"
+             xmlns:resources="clr-namespace:ChatPrisma.Resources"
+             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             
+             d:DataContext="{d:DesignInstance local:ChatViewModel}"
+             
+             Loaded="ChatView_OnLoaded"
+             >
+    <Grid themes:Spacing.Vertical="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Chat" themes:Attached.Icon="Chat">
+
+            <ScrollViewer x:Name="TextScrollViewer"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
+                <ItemsControl FontSize="{Binding TextSize}"
+                              SizeChanged="ChatItemsControl_OnSizeChanged">
+                    <ItemsControl.Margin>
+                        <Thickness>0, 4, 0, 6</Thickness> <!-- Give it some inner margin back so it looks good -->
+                    </ItemsControl.Margin>
+                </ItemsControl>
+            </ScrollViewer>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Header="Message" themes:Attached.Icon="ChatAdd">
+            <Grid>
+                <TextBox x:Name="InstructionTextBox"
+                         themes:Attached.Placeholder="Your message"
+                         FontSize="{Binding TextSize}"
+                         IsReadOnly="{Binding SendMessageCommand.IsRunning}"
+                         Text="{Binding NextMessage, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SendMessageCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
