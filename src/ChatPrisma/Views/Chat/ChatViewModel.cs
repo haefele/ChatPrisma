@@ -1,9 +1,6 @@
 using System.Collections.ObjectModel;
-using System.Windows;
 using ChatPrisma.Options;
 using ChatPrisma.Services.ChatBot;
-using ChatPrisma.Services.Dialogs;
-using ChatPrisma.Services.TextWriter;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Options;
@@ -13,7 +10,7 @@ namespace ChatPrisma.Views.Chat;
 public partial class ChatViewModel(IChatBotService chatBotService, IOptionsMonitor<TextEnhancementOptions> textEnhancementOptions) : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<PrismaChatMessage> _messages = new();
+    private ObservableCollection<MessageViewModel> _messages = new();
 
     [ObservableProperty]
     private string _nextMessage = string.Empty;
@@ -24,17 +21,48 @@ public partial class ChatViewModel(IChatBotService chatBotService, IOptionsMonit
     [RelayCommand]
     private async Task SendMessage()
     {
-        this.Messages.Add(new PrismaChatMessage(PrismaChatRole.User, this.NextMessage));
+        this.Messages.Add(new MessageViewModel(PrismaChatRole.User, this.NextMessage));
         this.NextMessage = string.Empty;
 
-        var response = chatBotService.GetResponse(this.Messages.ToList());
+        var response = chatBotService.GetResponse(this.Messages.Select(f => new PrismaChatMessage(f.Role, f.Content)).ToList());
+        var responseMessage = new MessageViewModel(response);
+        this.Messages.Add(responseMessage);
 
-        var responseMessage = string.Empty;
-        await foreach (var part in response)
+        await responseMessage.WaitUntilFinished();
+    }
+}
+
+public partial class MessageViewModel : ObservableObject
+{
+    private readonly IAsyncEnumerable<string>? _contentEnumerable;
+
+    [ObservableProperty]
+    private PrismaChatRole _role;
+    [ObservableProperty]
+    private string _content;
+
+    public MessageViewModel(PrismaChatRole role, string content)
+    {
+        this.Role = role;
+        this.Content = content;
+    }
+
+    public MessageViewModel(IAsyncEnumerable<string> response)
+    {
+        this.Role = PrismaChatRole.Assistant;
+        this.Content = string.Empty;
+
+        this._contentEnumerable = response;
+    }
+
+    public async Task WaitUntilFinished()
+    {
+        if (this._contentEnumerable is null)
+            return;
+
+        await foreach (var part in this._contentEnumerable)
         {
-            responseMessage += part;
+            this.Content += part;
         }
-
-        this.Messages.Add(new PrismaChatMessage(PrismaChatRole.Assistant, responseMessage));
     }
 }

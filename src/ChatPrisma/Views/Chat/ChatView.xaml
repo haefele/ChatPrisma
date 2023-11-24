@@ -26,10 +26,33 @@
                           VerticalScrollBarVisibility="Auto"
                           Padding="0, -8, 0, -10"> <!-- Make the content stretch fully vertically inside the GroupBox (same values as GroupBox inner margin) -->
                 <ItemsControl FontSize="{Binding TextSize}"
+                              ItemsSource="{Binding Messages}"
                               SizeChanged="ChatItemsControl_OnSizeChanged">
                     <ItemsControl.Margin>
                         <Thickness>0, 4, 0, 6</Thickness> <!-- Give it some inner margin back so it looks good -->
                     </ItemsControl.Margin>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"
+                                        IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:MessageViewModel}">
+                            <StackPanel>
+                                <TextBlock x:Name="NameTextBlock" Text="Du" FontSize="14" FontWeight="Bold" Margin="0, 10, 0, 0" />
+                                <TextBlock Text="{Binding Content}" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
+                            </StackPanel>
+                            
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                    <Setter TargetName="NameTextBlock" Property="Margin" Value="0"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
         </GroupBox>
