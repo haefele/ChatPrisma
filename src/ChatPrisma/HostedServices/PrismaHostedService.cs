@@ -10,17 +10,17 @@ public class PrismaHostedService(IKeyboardHooks keyboardHooks, ITextExtractor te
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        keyboardHooks.CombinationPressed += this.KeyboardHooksOnCombinationPressed;
+        keyboardHooks.TextEnhancementHotkeyPressed += this.KeyboardHooksOnTextEnhancementHotkeyPressed;
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        keyboardHooks.CombinationPressed -= this.KeyboardHooksOnCombinationPressed;
+        keyboardHooks.TextEnhancementHotkeyPressed -= this.KeyboardHooksOnTextEnhancementHotkeyPressed;
         return Task.CompletedTask;
     }
 
-    private async void KeyboardHooksOnCombinationPressed(object? sender, EventArgs e)
+    private async void KeyboardHooksOnTextEnhancementHotkeyPressed(object? sender, EventArgs e)
     {
         var text = await textExtractor.GetCurrentTextAsync();
         if (text is null)

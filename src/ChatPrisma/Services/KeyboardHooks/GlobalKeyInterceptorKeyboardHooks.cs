@@ -8,16 +8,18 @@ namespace ChatPrisma.Services.KeyboardHooks;
 
 public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeyboardHooks> logger, IOptions<HotkeyOptions> keyboardOptions) : IKeyboardHooks, IDisposable
 {
-    public event EventHandler? CombinationPressed;
+    private const string TextEnhancement = "TextEnhancement";
+
+    public event EventHandler? TextEnhancementHotkeyPressed;
 
     private KeyInterceptor? _interceptor;
     public Task StartAsync()
     {
-        var (key, keyModifiers) = ParseKey();
+        var (textEnhancementKey, textEnhancementKeyModifiers) = ParseKey(keyboardOptions.Value.TextEnhancement);
 
         var shortcuts = new[]
         {
-            new Shortcut(key, keyModifiers, "Prisma Shortcut"),
+            new Shortcut(textEnhancementKey, textEnhancementKeyModifiers, TextEnhancement),
         };
 
         this._interceptor = new KeyInterceptor(shortcuts);
@@ -40,17 +42,20 @@ public class GlobalKeyInterceptorKeyboardHooks(ILogger<GlobalKeyInterceptorKeybo
     private void OnShortcutPressed(object? sender, ShortcutPressedEventArgs e)
     {
         logger.LogTrace("Shortcut pressed: {Shortcut}", e.Shortcut.Name);
-        this.CombinationPressed?.Invoke(this, EventArgs.Empty);
 
-        e.IsHandled = true;
+        if (e.Shortcut.Name == TextEnhancement)
+        {
+            this.TextEnhancementHotkeyPressed?.Invoke(this, EventArgs.Empty);
+            e.IsHandled = true;
+        }
     }
 
-    private (Key, KeyModifier) ParseKey()
+    private (Key, KeyModifier) ParseKey(KeyCombination keyCombination)
     {
         try
         {
-            var key = keyboardOptions.Value.Key;
-            var keyModifiers = keyboardOptions.Value.KeyModifiers;
+            var key = keyCombination.Key;
+            var keyModifiers = keyCombination.KeyModifiers;
 
             var parsedKey = Enum.Parse<Key>(key, ignoreCase: true);
 

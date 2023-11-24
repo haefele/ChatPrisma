@@ -144,8 +144,7 @@ public partial class App : ISingleInstance
             services.AddOptions<HotkeyOptions>()
                 .Configure(o =>
                 {
-                    o.Key = "Y";
-                    o.KeyModifiers = "Ctrl+Shift+Alt";
+                    o.TextEnhancement = new KeyCombination { Key = "Y", KeyModifiers = "Ctrl+Shift+Alt", };
                     o.HotkeyDelayInMilliseconds = 500;
                     o.ClipboardDelayInMilliseconds = 500;
                 })

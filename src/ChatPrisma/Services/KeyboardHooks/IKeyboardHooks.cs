@@ -2,7 +2,7 @@ namespace ChatPrisma.Services.KeyboardHooks;
 
 public interface IKeyboardHooks
 {
-    public event EventHandler CombinationPressed;
+    public event EventHandler TextEnhancementHotkeyPressed;
 
     Task StartAsync();
     Task StopAsync();
